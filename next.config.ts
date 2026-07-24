@@ -1,11 +1,21 @@
 import type { NextConfig } from "next";
 import path from "path";
 
+const isGithubPages = process.env.GITHUB_PAGES === "true";
+/** Must match the GitHub repository name for project Pages URLs */
+const repoName = "primerebarui";
+const basePath = isGithubPages ? `/${repoName}` : "";
+
 const nextConfig: NextConfig = {
+  output: "export",
+  trailingSlash: true,
+  basePath,
+  assetPrefix: basePath ? `${basePath}/` : undefined,
   turbopack: {
     root: path.join(__dirname),
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -13,15 +23,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  async redirects() {
-    return [
-      { source: "/about", destination: "/#about", permanent: false },
-      { source: "/services", destination: "/#services", permanent: false },
-      { source: "/products", destination: "/#products", permanent: false },
-      { source: "/projects", destination: "/#projects", permanent: false },
-      { source: "/gallery", destination: "/#gallery", permanent: false },
-      { source: "/contact", destination: "/#contact", permanent: false },
-    ];
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
   },
 };
 

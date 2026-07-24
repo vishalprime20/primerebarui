@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   description: SITE.about,
   icons: {
-    icon: "/favicon.svg",
+    icon: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/favicon.svg`,
   },
   openGraph: {
     title: SITE.name,

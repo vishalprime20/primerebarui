@@ -14,10 +14,21 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000).
 
 ```bash
-npm run build   # production build
-npm start       # serve production build
-npm run lint    # eslint
+npm run build         # static export → out/
+npm run build:pages   # static export with GitHub Pages basePath
+npm run lint          # eslint
+npx serve out         # preview static build locally
 ```
+
+## Deploy to GitHub Pages
+
+Workflow: [`.github/workflows/main.yml`](.github/workflows/main.yml)
+
+1. Repo **Settings → Pages → Build and deployment → Source**: **GitHub Actions**
+2. Push to `main` (or `master`), or run the workflow manually under **Actions**
+3. Site URL: `https://vishalprime20.github.io/primerebarui/`
+
+`GITHUB_PAGES=true` sets `basePath` / `assetPrefix` to `/primerebarui` (must match the repo name).
 
 ## Single-page sections
 
