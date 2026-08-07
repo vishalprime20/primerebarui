@@ -1,12 +1,18 @@
 "use client";
 
 import { NAV_LINKS, SITE } from "@/lib/constants";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 
 export function Footer() {
   const year = new Date().getFullYear();
 
   const scrollToHash = (href: string) => {
     const id = href.replace("#", "");
+    if (id === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.history.replaceState(null, "", "#home");
+      return;
+    }
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
@@ -18,9 +24,7 @@ export function Footer() {
     <footer className="border-t border-white/10 bg-ink">
       <div className="container-site grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div className="lg:col-span-2">
-          <p className="font-display text-3xl tracking-[0.12em] text-white">
-            PRIME <span className="text-accent">REBAR</span>
-          </p>
+          <BrandLogo size="footer" />
           <p className="mt-4 max-w-md text-muted">{SITE.tagline}</p>
           <p className="mt-3 max-w-md text-sm text-steel">
             Full-service fabrication in {SITE.contact.facility} — delivering

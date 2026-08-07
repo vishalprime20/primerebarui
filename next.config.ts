@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   basePath,
   assetPrefix: basePath ? `${basePath}/` : undefined,
+  // Hide the Next.js "N" / nextjs-portal badge in local dev
+  devIndicators: false,
   turbopack: {
     root: path.join(__dirname),
   },

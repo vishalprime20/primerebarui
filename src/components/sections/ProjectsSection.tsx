@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function ProjectsSection() {
   return (
-    <section id="projects" className="relative z-10 scroll-mt-24 section-pad bg-ink/50">
+    <section id="projects" className="relative z-10 scroll-mt-20 section-pad bg-ink/50">
       <div className="container-site">
         <SectionHeading
           eyebrow="Projects"

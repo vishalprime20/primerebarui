@@ -1,5 +1,6 @@
 import { Hero } from "@/components/home/Hero";
 import { TrustStrip } from "@/components/home/TrustStrip";
+import { FabricationReel } from "@/components/home/FabricationReel";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
 import { ProductsSection } from "@/components/sections/ProductsSection";
@@ -18,6 +19,7 @@ export default function HomePage() {
       <div className="relative z-10">
         <Hero />
         <TrustStrip />
+        <FabricationReel />
         <AboutSection />
         <SectionDivider />
         <ServicesSection />

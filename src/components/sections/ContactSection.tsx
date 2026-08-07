@@ -9,7 +9,7 @@ export function ContactSection() {
   )}&output=embed`;
 
   return (
-    <section id="contact" className="relative z-10 scroll-mt-24 section-pad bg-ink/60">
+    <section id="contact" className="relative z-10 scroll-mt-20 section-pad bg-ink/60">
       <div className="container-site">
         <SectionHeading
           eyebrow="Contact"
@@ -73,7 +73,7 @@ export function ContactSection() {
                 <iframe
                   title="Prime Rebar head office map"
                   src={mapSrc}
-                  className="h-56 w-full grayscale contrast-125"
+                  className="h-56 w-full"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />

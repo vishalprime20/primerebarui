@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useId, useState, type MouseEvent } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { NAV_LINKS, SITE } from "@/lib/constants";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import { Button } from "@/components/ui/Button";
 
 const SECTION_IDS = NAV_LINKS.map((link) => link.href.replace("#", ""));
@@ -67,9 +68,19 @@ export function Header() {
   const scrollToHash = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const id = href.replace("#", "");
+    const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
+
+    if (id === "home") {
+      window.scrollTo({ top: 0, behavior });
+      window.history.replaceState(null, "", "#home");
+      setActive("home");
+      closeMenu();
+      return;
+    }
+
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+      el.scrollIntoView({ behavior });
       window.history.replaceState(null, "", href);
       setActive(id);
     }
@@ -87,11 +98,11 @@ export function Header() {
       <div className="container-site flex h-16 items-center justify-between sm:h-[4.5rem]">
         <Link
           href="#home"
-          className="focus-ring font-display text-xl tracking-[0.14em] text-white sm:text-2xl"
+          className="focus-ring drop-shadow-[0_2px_14px_rgba(0,0,0,0.75)]"
           aria-label={`${SITE.name} home`}
           onClick={(e) => scrollToHash(e, "#home")}
         >
-          PRIME <span className="text-accent">REBAR</span>
+          <BrandLogo size="header" priority />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
@@ -103,7 +114,7 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={(e) => scrollToHash(e, link.href)}
-                className={`focus-ring relative rounded-[var(--radius-sm)] px-3 py-2 text-sm tracking-wide transition-colors ${
+                className={`focus-ring relative rounded-[var(--radius-sm)] px-3 py-2 text-sm tracking-wide transition-colors drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] ${
                   isActive ? "text-white" : "text-steel-light hover:text-white"
                 }`}
               >

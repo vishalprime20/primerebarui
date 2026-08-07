@@ -1,3 +1,5 @@
+import { siteAsset } from "@/lib/siteAssets";
+
 export type ProjectFilter = "all" | "ny" | "nj" | "airport" | "bridge" | "residential";
 
 export type Project = {
@@ -7,6 +9,7 @@ export type Project = {
   filters: ProjectFilter[];
 };
 
+/** Services copy aligned with https://www.primerebar.com/ */
 export const SERVICES = [
   {
     title: "Rebar Fabrication",
@@ -14,12 +17,12 @@ export const SERVICES = [
       "Full-service fabrication to spec with speedy turnaround and competitive pricing.",
   },
   {
-    title: "Benders & Cranes",
+    title: "Benders, Cranes",
     description:
       "Precision bending and crane-supported handling for complex jobsite requirements.",
   },
   {
-    title: "Quality Assurance",
+    title: "Owner's quality assurance/control requirements",
     description:
       "Owner’s quality assurance and control requirements met with documented shop standards.",
   },
@@ -29,22 +32,39 @@ export const SERVICES = [
       "Efficient delivery across New York, New Jersey, and the tri-state area.",
   },
   {
-    title: "Epoxy Coating & Galvanizing",
+    title: "Epoxy coating or galvanizing",
     description:
       "Protective epoxy coating or galvanizing for corrosion-resistant reinforcing steel.",
   },
   {
-    title: "Painting, Dipping & Coating",
+    title: "Painting, dipping or coating",
     description:
       "Specialty finishing options including painting, dipping, and custom coatings.",
   },
 ] as const;
 
+/** Shop / services stills shown on the live site. */
+export const SERVICE_IMAGES = [
+  {
+    src: siteAsset("DSC_0224.JPG"),
+    alt: "Prime Rebar fabrication shop floor",
+  },
+  {
+    src: siteAsset("WhatsApp Image 2024-07-24 at 9.42.54 AM.jpeg"),
+    alt: "Rebar fabrication and handling on site",
+  },
+  {
+    src: siteAsset("DSC_0225.JPG"),
+    alt: "Reinforcing steel staged in the shop",
+  },
+] as const;
+
+/** Fabrication capabilities from https://www.primerebar.com/ */
 export const FABRICATION_CAPABILITIES = [
-  "Bar threading and/or mechanical splices",
-  "Special bundling and tagging",
-  "Overlength and overwidth bars",
-  "Welding",
+  "bar threading and/or mechanical splices",
+  "special bundling and tagging",
+  "overlength and overwidth bars",
+  "welding",
   "Spirals, spiral spacers and continuous loops",
   "Shearing or bending to special tolerances",
   "Square (saw-cut) ends of reinforcing bars",
@@ -275,53 +295,131 @@ export const PROJECTS: Project[] = [
   },
 ];
 
+/** Gallery photos from the live site asset pack (public/images/site-files). */
 export const GALLERY_IMAGES = [
+  { id: "dsc-0003", file: "DSC_0003.JPG", alt: "Rebar fabrication shop" },
+  { id: "dsc-0022", file: "DSC_0022.JPG", alt: "Shop floor fabrication" },
+  { id: "dsc-0024", file: "DSC_0024.JPG", alt: "Reinforcing steel in process" },
+  { id: "dsc-0025", file: "DSC_0025.JPG", alt: "Fabrication equipment and steel" },
+  { id: "dsc-0027", file: "DSC_0027.JPG", alt: "Rebar staging and bundling" },
+  { id: "dsc-0031", file: "DSC_0031.JPG", alt: "Detail of fabricated rebar" },
+  { id: "dsc-0039", file: "DSC_0039.JPG", alt: "Shop production floor" },
+  { id: "dsc-0059", file: "DSC_0059.JPG", alt: "Steel reinforcement inventory" },
+  { id: "dsc-0060", file: "DSC_0060.JPG", alt: "Fabricated rebar assemblies" },
+  { id: "dsc-0066", file: "DSC_0066.JPG", alt: "Bending and cutting work" },
+  { id: "dsc-0067", file: "DSC_0067.JPG", alt: "Prime Rebar shop operations" },
+  { id: "dsc-0078", file: "DSC_0078.JPG", alt: "Reinforcing bars prepared for delivery" },
+  { id: "dsc-0080", file: "DSC_0080.JPG", alt: "Industrial fabrication environment" },
+  { id: "dsc-0112", file: "DSC_0112.JPG", alt: "Shop floor steel handling" },
+  { id: "dsc-0122", file: "DSC_0122.JPG", alt: "Rebar fabrication detail" },
+  { id: "dsc-0132", file: "DSC_0132.JPG", alt: "Fabrication and bundling" },
+  { id: "dsc-0133", file: "DSC_0133.JPG", alt: "Close-up reinforcing steel" },
+  { id: "dsc-0137", file: "DSC_0137.JPG", alt: "Shop crane and steel stock" },
+  { id: "dsc-0138", file: "DSC_0138.JPG", alt: "Rebar production line" },
+  { id: "dsc-0142", file: "DSC_0142.JPG", alt: "Finished rebar bundles" },
+  { id: "dsc-0156", file: "DSC_0156.JPG", alt: "Fabrication facility interior" },
+  { id: "dsc-0168", file: "DSC_0168.JPG", alt: "Steel reinforcement work" },
+  { id: "dsc-0175", file: "DSC_0175.JPG", alt: "Shop floor operations" },
+  { id: "dsc-0182", file: "DSC_0182.JPG", alt: "Rebar staging area" },
+  { id: "dsc-0184", file: "DSC_0184.JPG", alt: "Industrial rebar fabrication" },
+  { id: "dsc-0193", file: "DSC_0193.JPG", alt: "Fabricated reinforcing steel" },
+  { id: "dsc-0198", file: "DSC_0198.JPG", alt: "Prime Rebar production" },
+  { id: "dsc-0206", file: "DSC_0206.JPG", alt: "Shop equipment and steel" },
+  { id: "dsc-0219", file: "DSC_0219.JPG", alt: "Rebar ready for transport" },
+  { id: "dsc-0224", file: "DSC_0224.JPG", alt: "Prime Rebar fabrication shop floor" },
+  { id: "dsc-0225", file: "DSC_0225.JPG", alt: "Reinforcing steel in the shop" },
+  { id: "dsc-0227", file: "DSC_0227.JPG", alt: "Full-service fabrication facility" },
   {
-    id: "g1",
-    src: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=80",
-    alt: "Steel reinforcement and construction site framework",
+    id: "wa-939-1",
+    file: "WhatsApp Image 2024-07-24 at 9.39.46 AM (1).jpeg",
+    alt: "Jobsite rebar installation",
   },
   {
-    id: "g2",
-    src: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1600&q=80",
-    alt: "Industrial construction crane over steel structure",
+    id: "wa-939-2",
+    file: "WhatsApp Image 2024-07-24 at 9.39.46 AM (2).jpeg",
+    alt: "Construction site reinforcing steel",
   },
   {
-    id: "g3",
-    src: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1600&q=80",
-    alt: "Fabrication floor with workers handling steel materials",
+    id: "wa-939-3",
+    file: "WhatsApp Image 2024-07-24 at 9.39.46 AM (3).jpeg",
+    alt: "Rebar cage on site",
   },
   {
-    id: "g4",
-    src: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1600&q=80",
-    alt: "Metal workshop and industrial fabrication equipment",
+    id: "wa-939-4",
+    file: "WhatsApp Image 2024-07-24 at 9.39.46 AM (4).jpeg",
+    alt: "Urban construction reinforcing work",
   },
   {
-    id: "g5",
-    src: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=80",
-    alt: "Urban high-rise construction with rebar cages",
+    id: "wa-939-5",
+    file: "WhatsApp Image 2024-07-24 at 9.39.46 AM (5).jpeg",
+    alt: "Jobsite steel reinforcement",
   },
   {
-    id: "g6",
-    src: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1600&q=80",
-    alt: "Concrete pour preparation with reinforcing steel",
+    id: "wa-939-6",
+    file: "WhatsApp Image 2024-07-24 at 9.39.46 AM (6).jpeg",
+    alt: "Rebar placement on project",
   },
   {
-    id: "g7",
-    src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80",
-    alt: "Modern steel and glass building under construction",
+    id: "wa-939-8",
+    file: "WhatsApp Image 2024-07-24 at 9.39.46 AM (8).jpeg",
+    alt: "Field reinforcing steel",
   },
   {
-    id: "g8",
-    src: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1600&q=80",
-    alt: "Stacked steel materials in an industrial yard",
+    id: "wa-942",
+    file: "WhatsApp Image 2024-07-24 at 9.42.54 AM.jpeg",
+    alt: "Fabrication and delivery staging",
   },
   {
-    id: "g9",
-    src: "https://images.unsplash.com/photo-1513828583688-c526ac7c6e0e?auto=format&fit=crop&w=1600&q=80",
-    alt: "Bridge and infrastructure construction site",
+    id: "wa-942-1",
+    file: "WhatsApp Image 2024-07-24 at 9.42.54 AM (1).jpeg",
+    alt: "Prime Rebar project photo",
+  },
+  {
+    id: "wa-943",
+    file: "WhatsApp Image 2024-07-24 at 9.42.55 AM.jpeg",
+    alt: "Shop and project atmosphere",
+  },
+  {
+    id: "slab",
+    file: "Suspended-Slab-Residential-Block.png",
+    alt: "Suspended slab residential rebar detailing",
+  },
+].map((item) => ({
+  id: item.id,
+  src: siteAsset(item.file),
+  alt: item.alt,
+}));
+
+/** Atmospheric stills for the fabrication reel (from site-files). */
+export const FABRICATION_FRAMES = [
+  {
+    src: siteAsset("DSC_0224.JPG"),
+    alt: "Prime Rebar fabrication shop floor",
+  },
+  {
+    src: siteAsset("DSC_0225.JPG"),
+    alt: "Reinforcing steel staged in the shop",
+  },
+  {
+    src: siteAsset("DSC_0137.JPG"),
+    alt: "Shop crane and steel stock",
+  },
+  {
+    src: siteAsset("DSC_0003.JPG"),
+    alt: "Rebar fabrication operations",
+  },
+  {
+    src: siteAsset("WhatsApp Image 2024-07-24 at 9.39.46 AM (3).jpeg"),
+    alt: "Jobsite rebar cage",
   },
 ] as const;
+
+export const ABOUT_IMAGES = {
+  primary: siteAsset("DSC_0224.JPG"),
+  secondary: siteAsset("DSC_0031.JPG"),
+  stats: siteAsset("DSC_0227.JPG"),
+  detailing: siteAsset("Suspended-Slab-Residential-Block.png"),
+} as const;
 
 export const PROJECT_FILTERS: { id: ProjectFilter; label: string }[] = [
   { id: "all", label: "All" },

@@ -26,7 +26,16 @@ export const metadata: Metadata = {
   },
   description: SITE.about,
   icons: {
-    icon: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/favicon.svg`,
+    icon: [
+      {
+        url: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/favicon.png`,
+        type: "image/png",
+      },
+      {
+        url: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/favicon.svg`,
+        type: "image/svg+xml",
+      },
+    ],
   },
   openGraph: {
     title: SITE.name,

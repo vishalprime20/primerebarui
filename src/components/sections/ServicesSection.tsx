@@ -1,17 +1,23 @@
 "use client";
 
+import Image from "next/image";
 import { useReducedMotion } from "framer-motion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Stagger, StaggerItem, Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 import { TiltCard } from "@/components/motion/TiltCard";
-import { FABRICATION_CAPABILITIES, SERVICES } from "@/lib/data";
+import {
+  ABOUT_IMAGES,
+  FABRICATION_CAPABILITIES,
+  SERVICE_IMAGES,
+  SERVICES,
+} from "@/lib/data";
 
 export function ServicesSection() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section id="services" className="relative z-10 scroll-mt-24 section-pad">
+    <section id="services" className="relative z-10 scroll-mt-20 section-pad">
       <div className="absolute inset-0 metal-gradient opacity-60" aria-hidden />
       <div className="absolute inset-0 metal-grid opacity-25" aria-hidden />
       <div className="container-site relative">
@@ -49,9 +55,26 @@ export function ServicesSection() {
           ))}
         </Stagger>
 
+        <Reveal className="mt-10 grid gap-3 sm:grid-cols-3">
+          {SERVICE_IMAGES.map((image) => (
+            <div
+              key={image.src}
+              className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-md)] border border-white/10"
+            >
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                sizes="(max-width: 640px) 100vw, 33vw"
+                className="object-cover"
+              />
+            </div>
+          ))}
+        </Reveal>
+
         <div className="mt-16">
           <SectionHeading
-            eyebrow="Shop capabilities"
+            eyebrow="Rebar fabrication"
             title="Dedicated fabrication"
             description="Specialized processes for complex specs, tight tolerances, and fast turnaround."
           />
@@ -72,11 +95,37 @@ export function ServicesSection() {
             ))}
           </Stagger>
 
-          <Reveal className="mt-12">
-            <Button href="#contact" magnetic>
-              Request a Quote
-            </Button>
-          </Reveal>
+          <div className="mt-12 grid items-center gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+            <Reveal>
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg)] border border-white/10">
+                <Image
+                  src={ABOUT_IMAGES.detailing}
+                  alt="Suspended slab residential rebar detailing"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="object-cover"
+                />
+              </div>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <p className="font-display text-sm tracking-[0.22em] text-accent">
+                Rebar detailing
+              </p>
+              <h3 className="mt-3 font-display text-3xl tracking-[0.08em] text-white sm:text-4xl">
+                Detailing & takeoff that keep jobs moving
+              </h3>
+              <p className="mt-4 max-w-lg text-muted">
+                Quality shop drawings, rebar takeoff, and quick turnaround —
+                coordinated with fabrication so steel arrives ready for the
+                jobsite.
+              </p>
+              <div className="mt-8">
+                <Button href="#contact" magnetic>
+                  Request a Quote
+                </Button>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </div>
     </section>

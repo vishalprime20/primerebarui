@@ -2,7 +2,9 @@ export const SITE = {
   name: "Prime Rebar",
   tagline: "Leading Rebar Fabricator in New York & New Jersey",
   about:
-    "At Prime Rebar, our top priority is you. We pride ourselves on providing exceptional customer service with a speedy turnaround and competitive prices. With our full-service fabrication facility in Bridgewater, New Jersey, we are well situated to deliver steel efficiently across the tri-state area.",
+    "At Prime Rebar, our top priority is you. We pride ourselves on providing exceptional customer service with a speedy turnaround and competitive prices.",
+  aboutFacility:
+    "And with our full-service fabrication facility in Bridgewater, New Jersey, we are well situated to deliver steel efficiently across the tri-state area.",
   yearEstablished: 2015,
   projectsCompleted: 1400,
   contact: {

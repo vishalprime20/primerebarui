@@ -59,9 +59,8 @@ CSS variables live in `src/app/globals.css`:
 | Asset | Where to change |
 |-------|-----------------|
 | Wordmark / logo | `src/components/layout/Header.tsx` and `Footer.tsx` — replace the text wordmark with an `<Image>` pointing at `public/logo.svg` (or `.png`) |
-| Hero background | `src/components/hero/HeroVisual.tsx` — replace the Unsplash `src` with `/images/hero.jpg` |
+| Hero 3D studio scene | `src/components/hero/PremiumConstructionScene.tsx` — luxury concrete + rebar block; wired in `HeroVisual.tsx` (right-split, `pointer-events-none`) |
 | Gallery photos | `src/lib/data.ts` → `GALLERY_IMAGES` — use local paths under `public/gallery/` |
-| Optional 3D hero | `src/components/hero/SteelScene.tsx` — tweak materials or disable via `HeroVisual` |
 
 Recommended folder for local media:
 

@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/Button";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import { HeroVisual } from "@/components/hero/HeroVisual";
 import { SITE } from "@/lib/constants";
 
@@ -45,7 +46,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-[100svh] overflow-hidden scroll-mt-24"
+      className="relative min-h-[100svh] overflow-hidden scroll-mt-20"
     >
       <HeroVisual />
 
@@ -68,30 +69,29 @@ export function Hero() {
               className="mb-5 inline-flex items-center gap-3"
             >
               <span className="h-px w-8 bg-accent" />
-              <p className="font-display text-sm tracking-[0.28em] text-accent sm:text-base">
+              <p className="font-display text-sm tracking-[0.28em] text-accent drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] sm:text-base">
                 New York & New Jersey
               </p>
             </motion.div>
 
             <motion.h1
               variants={brand}
-              className="font-display text-[clamp(3.5rem,12vw,7.5rem)] leading-[0.88] tracking-[0.04em] text-white drop-shadow-[0_20px_60px_rgba(0,0,0,0.45)]"
+              className="drop-shadow-[0_4px_28px_rgba(0,0,0,0.85)]"
             >
-              <span className="inline-block">PRIME</span>
-              <br />
-              <span className="inline-block text-steel-light">REBAR</span>
+              <span className="sr-only">{SITE.name}</span>
+              <BrandLogo size="hero" priority className="pointer-events-none" />
             </motion.h1>
 
             <motion.p
               variants={item}
-              className="mt-5 max-w-md font-display text-lg tracking-[0.08em] text-white/90 sm:text-xl"
+              className="mt-5 max-w-md font-display text-lg tracking-[0.08em] text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.9)] sm:text-xl"
             >
               {SITE.tagline}
             </motion.p>
 
             <motion.p
               variants={item}
-              className="mt-4 max-w-md text-base text-muted sm:text-lg"
+              className="mt-4 max-w-md text-base text-steel-light drop-shadow-[0_2px_14px_rgba(0,0,0,0.9)] sm:text-lg"
             >
               Full-service rebar fabrication from Bridgewater, NJ — built for
               speed, precision, and competitive pricing across the tri-state.
