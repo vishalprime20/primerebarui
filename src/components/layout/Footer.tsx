@@ -91,7 +91,7 @@ export function Footer() {
           <p>
             © {year} {SITE.name}. All rights reserved.
           </p>
-          <p>Bridgewater fabrication · Tri-state delivery</p>
+          <p>Swedesboro fabrication · Tri-state delivery</p>
         </div>
       </div>
     </footer>

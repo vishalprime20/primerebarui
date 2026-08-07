@@ -4,7 +4,7 @@ export const SITE = {
   about:
     "At Prime Rebar, our top priority is you. We pride ourselves on providing exceptional customer service with a speedy turnaround and competitive prices.",
   aboutFacility:
-    "And with our full-service fabrication facility in Bridgewater, New Jersey, we are well situated to deliver steel efficiently across the tri-state area.",
+    "And with our full-service fabrication facility in Swedesboro, New Jersey, we are well situated to deliver steel efficiently across the tri-state area.",
   yearEstablished: 2015,
   projectsCompleted: 1400,
   contact: {
@@ -22,7 +22,7 @@ export const SITE = {
       zip: "08085",
       full: "121 High Hill Rd, Swedesboro, NJ 08085",
     },
-    facility: "Bridgewater, New Jersey",
+    facility: "Swedesboro, New Jersey",
   },
 } as const;
 

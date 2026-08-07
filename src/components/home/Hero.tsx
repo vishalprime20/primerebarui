@@ -93,7 +93,7 @@ export function Hero() {
               variants={item}
               className="mt-4 max-w-md text-base text-steel-light drop-shadow-[0_2px_14px_rgba(0,0,0,0.9)] sm:text-lg"
             >
-              Full-service rebar fabrication from Bridgewater, NJ — built for
+              Full-service rebar fabrication from Swedesboro, NJ — built for
               speed, precision, and competitive pricing across the tri-state.
             </motion.p>
 

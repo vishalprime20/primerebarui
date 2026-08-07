@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     "rebar fabricator",
     "New York rebar",
     "New Jersey rebar",
-    "Bridgewater fabrication",
+    "Swedesboro fabrication",
     "reinforcing steel",
     "Prime Rebar",
   ],

@@ -80,13 +80,10 @@ export const PRODUCT_CATEGORIES = [
     id: "reinforcing-steel",
     label: "Reinforcing Steel",
     items: [
-      "ASTM A615 Grades: 40, 60, 75 and 80",
+      "ASTM A615 Grades: 60, 80 and 100",
       "ASTM A706",
-      "Plain Rebar",
       "Epoxy Coated Rebar",
       "Hot Dipped Galvanized Rebar",
-      "Stainless Steel Rebar",
-      "Fiberglass Rebar",
     ],
   },
   {
