@@ -1,8 +1,9 @@
 "use client";
 
-import { FormEvent, useState, type ReactNode } from "react";
+import { FormEvent, useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
+import { consumeQuoteNotes } from "@/lib/quoteHandoff";
 
 const PROJECT_TYPES = [
   "Commercial",
@@ -14,11 +15,36 @@ const PROJECT_TYPES = [
 ];
 
 const inputClass =
-  "focus-ring mt-1.5 w-full rounded-[var(--radius-sm)] border border-white/12 bg-charcoal/70 px-3.5 py-3 text-white outline-none transition-colors focus:border-accent";
+  "focus-ring mt-1.5 w-full rounded-[var(--radius-sm)] border border-black/10 bg-graphite px-3.5 py-3 text-ink-text outline-none transition-colors focus:border-accent";
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [message, setMessage] = useState("");
+  const [focusMessage, setFocusMessage] = useState(false);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
   const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const applyNotes = () => {
+      const notes = consumeQuoteNotes();
+      if (!notes) return;
+      setSubmitted(false);
+      setMessage((prev) => (prev.trim() ? `${prev.trim()}\n\n${notes}` : notes));
+      setFocusMessage(true);
+    };
+
+    applyNotes();
+    window.addEventListener("prime-quote-notes", applyNotes);
+    return () => {
+      window.removeEventListener("prime-quote-notes", applyNotes);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (submitted || !focusMessage) return;
+    messageRef.current?.focus();
+    setFocusMessage(false);
+  }, [submitted, focusMessage, message]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,7 +59,7 @@ export function ContactForm() {
         animate={{ opacity: 1, y: 0 }}
         role="status"
       >
-        <p className="font-display text-3xl tracking-[0.08em] text-white">
+        <p className="font-display text-3xl tracking-[0.08em] text-ink-text">
           Thanks for submitting!
         </p>
         <p className="mt-3 text-muted">
@@ -42,7 +68,10 @@ export function ContactForm() {
         <Button
           className="mt-6"
           variant="secondary"
-          onClick={() => setSubmitted(false)}
+          onClick={() => {
+            setSubmitted(false);
+            setMessage("");
+          }}
         >
           Send another message
         </Button>
@@ -53,7 +82,7 @@ export function ContactForm() {
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-[var(--radius-md)] border border-white/10 bg-graphite/70 p-6 sm:p-8"
+      className="rounded-[var(--radius-md)] border border-black/10 bg-graphite/70 p-6 sm:p-8"
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Name" id="name" required>
@@ -104,10 +133,13 @@ export function ContactForm() {
         </Field>
         <Field label="Message" id="message" required className="sm:col-span-2">
           <textarea
+            ref={messageRef}
             id="message"
             name="message"
             required
             rows={5}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
             className={`${inputClass} resize-y`}
           />
         </Field>

@@ -91,7 +91,7 @@ export function Hero() {
 
             <motion.p
               variants={item}
-              className="mt-4 max-w-md text-base text-steel-light drop-shadow-[0_2px_14px_rgba(0,0,0,0.9)] sm:text-lg"
+              className="mt-4 max-w-md text-base text-white/90 drop-shadow-[0_2px_14px_rgba(0,0,0,0.9)] sm:text-lg"
             >
               Full-service rebar fabrication from Swedesboro, NJ — built for
               speed, precision, and competitive pricing across the tri-state.
@@ -104,7 +104,7 @@ export function Hero() {
               <Button href="#contact" magnetic>
                 Request a Quote
               </Button>
-              <Button href="#projects" variant="secondary" magnetic>
+              <Button href="#projects" variant="secondary" magnetic className="!border-white/40 !bg-white/10 !text-white hover:!border-white/70 hover:!bg-white/20">
                 View Projects
               </Button>
             </motion.div>
@@ -117,7 +117,7 @@ export function Hero() {
         aria-hidden
       >
         <div className="flex flex-col items-center gap-2">
-          <span className="font-display text-[10px] tracking-[0.28em] text-steel">
+          <span className="font-display text-[10px] tracking-[0.28em] text-white/70">
             SCROLL
           </span>
           <motion.div

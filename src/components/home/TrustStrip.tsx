@@ -14,9 +14,9 @@ export function TrustStrip() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="relative z-10 border-y border-white/8 bg-graphite/90 backdrop-blur-sm">
+    <section className="relative z-10 border-y border-black/8 bg-graphite/90 backdrop-blur-sm">
       <div className="container-site">
-        <Stagger className="grid divide-y divide-white/8 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+        <Stagger className="grid divide-y divide-black/8 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {items.map((item, index) => (
             <StaggerItem key={item.label}>
               <motion.div
@@ -30,7 +30,7 @@ export function TrustStrip() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.15 * index, duration: 0.7 }}
                 />
-                <span className="font-display text-3xl tracking-[0.08em] text-white transition-colors group-hover:text-accent sm:text-4xl">
+                <span className="font-display text-3xl tracking-[0.08em] text-ink-text transition-colors group-hover:text-accent sm:text-4xl">
                   {item.value}
                 </span>
                 <span className="text-sm uppercase tracking-[0.16em] text-muted">

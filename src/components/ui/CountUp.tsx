@@ -8,6 +8,8 @@ type CountUpProps = {
   suffix?: string;
   duration?: number;
   className?: string;
+  /** Thousands separators. Off for years so 2015 does not become 2,015. */
+  grouped?: boolean;
 };
 
 export function CountUp({
@@ -15,6 +17,7 @@ export function CountUp({
   suffix = "",
   duration = 1.6,
   className,
+  grouped = true,
 }: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
@@ -44,7 +47,7 @@ export function CountUp({
 
   return (
     <span ref={ref} className={className}>
-      {display.toLocaleString()}
+      {display.toLocaleString("en-US", { useGrouping: grouped })}
       {suffix}
     </span>
   );

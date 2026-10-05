@@ -33,8 +33,8 @@ const variants: Record<Variant, string> = {
   primary:
     "bg-accent text-white hover:bg-accent-hover shadow-[0_10px_30px_rgba(232,93,4,0.28)]",
   secondary:
-    "border border-steel/40 bg-white/5 text-white hover:border-steel-light/60 hover:bg-white/10",
-  ghost: "text-steel-light hover:text-white",
+    "border border-black/15 bg-black/5 text-ink-text hover:border-steel/50 hover:bg-black/10",
+  ghost: "text-steel-light hover:text-ink-text",
 };
 
 function isInternalHref(href: string) {

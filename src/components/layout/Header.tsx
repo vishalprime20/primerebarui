@@ -64,6 +64,7 @@ export function Header() {
   }, [open]);
 
   const closeMenu = () => setOpen(false);
+  const lightBar = scrolled || open;
 
   const scrollToHash = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -90,8 +91,8 @@ export function Header() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled || open
-          ? "border-b border-white/10 bg-charcoal/90 backdrop-blur-md"
+        lightBar
+          ? "border-b border-black/10 bg-white/90 backdrop-blur-md"
           : "bg-transparent"
       }`}
     >
@@ -114,8 +115,12 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={(e) => scrollToHash(e, link.href)}
-                className={`focus-ring relative rounded-[var(--radius-sm)] px-3 py-2 text-sm tracking-wide transition-colors drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] ${
-                  isActive ? "text-white" : "text-steel-light hover:text-white"
+                className={`focus-ring relative rounded-[var(--radius-sm)] px-3 py-2 text-sm tracking-wide transition-colors ${
+                  lightBar
+                    ? isActive
+                      ? "text-ink-text"
+                      : "text-steel hover:text-ink-text"
+                    : "!text-[#ffffff] drop-shadow-[0_1px_8px_rgba(0,0,0,0.95)] hover:!text-[#ffffff]"
                 }`}
               >
                 {link.label}
@@ -138,7 +143,11 @@ export function Header() {
 
         <button
           type="button"
-          className="focus-ring relative z-50 flex h-10 w-10 items-center justify-center rounded-[var(--radius-sm)] border border-white/15 text-white lg:hidden"
+          className={`focus-ring relative z-50 flex h-10 w-10 items-center justify-center rounded-[var(--radius-sm)] border lg:hidden ${
+            lightBar
+              ? "border-black/15 text-ink-text"
+              : "border-white/40 !text-[#ffffff]"
+          }`}
           aria-expanded={open}
           aria-controls={navId}
           aria-label={open ? "Close menu" : "Open menu"}
@@ -147,19 +156,19 @@ export function Header() {
           <span className="sr-only">Menu</span>
           <span className="flex w-5 flex-col gap-1.5">
             <span
-              className={`h-px w-full bg-white transition-transform ${
-                open ? "translate-y-[7px] rotate-45" : ""
-              }`}
+              className={`h-px w-full transition-transform ${
+                lightBar ? "bg-ink-text" : "bg-[#ffffff]"
+              } ${open ? "translate-y-[7px] rotate-45" : ""}`}
             />
             <span
-              className={`h-px w-full bg-white transition-opacity ${
-                open ? "opacity-0" : ""
-              }`}
+              className={`h-px w-full transition-opacity ${
+                lightBar ? "bg-ink-text" : "bg-[#ffffff]"
+              } ${open ? "opacity-0" : ""}`}
             />
             <span
-              className={`h-px w-full bg-white transition-transform ${
-                open ? "-translate-y-[7px] -rotate-45" : ""
-              }`}
+              className={`h-px w-full transition-transform ${
+                lightBar ? "bg-ink-text" : "bg-[#ffffff]"
+              } ${open ? "-translate-y-[7px] -rotate-45" : ""}`}
             />
           </span>
         </button>
@@ -172,7 +181,7 @@ export function Header() {
             initial={reduceMotion ? false : { opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
-            className="border-t border-white/10 bg-charcoal/98 lg:hidden"
+            className="border-t border-black/10 bg-white/98 lg:hidden"
             aria-label="Mobile"
           >
             <div className="container-site flex flex-col gap-1 py-4">
@@ -185,7 +194,7 @@ export function Header() {
                     href={link.href}
                     onClick={(e) => scrollToHash(e, link.href)}
                     className={`focus-ring rounded-[var(--radius-sm)] px-3 py-3 font-display tracking-[0.12em] ${
-                      isActive ? "bg-white/5 text-accent" : "text-steel-light"
+                      isActive ? "bg-black/5 text-accent" : "text-ink-text"
                     }`}
                   >
                     {link.label}

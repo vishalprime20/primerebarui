@@ -26,7 +26,7 @@ export function SectionHeading({
       ) : null}
       <h2
         className={`font-display text-4xl leading-none tracking-[0.06em] sm:text-5xl ${
-          light ? "text-white" : "text-white"
+          light ? "text-white" : "text-ink-text"
         }`}
       >
         {title}

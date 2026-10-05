@@ -34,7 +34,7 @@ export function ProjectGrid() {
               className={`focus-ring rounded-[var(--radius-sm)] px-4 py-2 font-display text-sm tracking-[0.12em] transition-colors ${
                 active
                   ? "bg-accent text-white shadow-[0_8px_24px_rgba(232,93,4,0.35)]"
-                  : "border border-white/10 text-steel-light hover:text-white"
+                  : "border border-black/10 text-steel-light hover:text-ink-text"
               }`}
               aria-pressed={active}
               onClick={() => setFilter(item.id)}
@@ -66,7 +66,7 @@ export function ProjectGrid() {
             >
               <TiltCard
                 as="article"
-                className="group h-full overflow-hidden rounded-[var(--radius-md)] border border-white/10 bg-graphite/80 p-5"
+                className="group h-full overflow-hidden rounded-[var(--radius-md)] border border-black/10 bg-graphite/80 p-5"
               >
                 <div
                   className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
@@ -88,7 +88,7 @@ export function ProjectGrid() {
                       .toUpperCase() || "PROJECT"}
                   </span>
                 </div>
-                <h3 className="relative mt-3 font-display text-xl leading-snug tracking-[0.05em] text-white">
+                <h3 className="relative mt-3 font-display text-xl leading-snug tracking-[0.05em] text-ink-text">
                   {project.name}
                 </h3>
                 <p className="relative mt-2 text-sm text-muted">

@@ -18,7 +18,7 @@ export function ProductTabs() {
       <div
         role="tablist"
         aria-label="Product categories"
-        className="flex flex-wrap gap-2 border-b border-white/10 pb-4"
+        className="flex flex-wrap gap-2 border-b border-black/10 pb-4"
       >
         {PRODUCT_CATEGORIES.map((category) => {
           const selected = category.id === active;
@@ -33,7 +33,7 @@ export function ProductTabs() {
               className={`focus-ring rounded-[var(--radius-sm)] px-4 py-2.5 font-display text-sm tracking-[0.1em] transition-colors ${
                 selected
                   ? "bg-accent text-white"
-                  : "border border-white/10 bg-white/5 text-steel-light hover:text-white"
+                  : "border border-black/10 bg-black/5 text-steel-light hover:text-ink-text"
               }`}
               onClick={() => setActive(category.id)}
             >
@@ -56,15 +56,15 @@ export function ProductTabs() {
           className="pt-8"
           style={{ transformPerspective: 900 }}
         >
-          <h2 className="font-display text-3xl tracking-[0.08em] text-white">
+          <h2 className="font-display text-3xl tracking-[0.08em] text-ink-text">
             {current.label}
           </h2>
           <ul className="mt-6 grid gap-3 sm:grid-cols-2">
             {current.items.map((item) => (
               <li key={item}>
-                <TiltCard className="steel-sheen group rounded-[var(--radius-md)] border border-white/10 bg-graphite/80 px-5 py-4">
+                <TiltCard className="steel-sheen group rounded-[var(--radius-md)] border border-black/10 bg-graphite/80 px-5 py-4">
                   <span className="mr-3 inline-block h-1.5 w-1.5 rounded-full bg-accent align-middle shadow-[0_0_10px_rgba(232,93,4,0.5)]" />
-                  <span className="text-steel-light transition-colors group-hover:text-white">
+                  <span className="text-steel-light transition-colors group-hover:text-ink-text">
                     {item}
                   </span>
                 </TiltCard>

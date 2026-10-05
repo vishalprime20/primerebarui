@@ -58,7 +58,7 @@ export function BuildingRevealBackground() {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 overflow-hidden bg-charcoal"
+      className="absolute inset-0 overflow-hidden bg-black"
       aria-hidden
     >
       {/* Finished glass building */}
@@ -92,7 +92,7 @@ export function BuildingRevealBackground() {
         <div className="absolute inset-y-0 -left-10 w-20 bg-gradient-to-r from-transparent via-accent/35 to-transparent" />
         <div className="absolute inset-y-0 left-0 w-[2px] bg-accent shadow-[0_0_24px_rgba(232,93,4,0.95)]" />
         <motion.div
-          className="absolute top-1/2 left-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-accent bg-charcoal/90 shadow-[0_0_20px_rgba(232,93,4,0.45)]"
+          className="absolute top-1/2 left-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-accent bg-black/90 shadow-[0_0_20px_rgba(232,93,4,0.45)]"
           animate={reduceMotion ? undefined : { scale: [1, 1.07, 1] }}
           transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
         >

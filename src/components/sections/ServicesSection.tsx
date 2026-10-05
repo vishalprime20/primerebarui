@@ -30,14 +30,14 @@ export function ServicesSection() {
         <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((service, i) => (
             <StaggerItem key={service.title}>
-              <TiltCard className="group h-full steel-sheen rounded-[var(--radius-md)] border border-white/10 bg-graphite/80 p-6 shadow-[var(--shadow-soft)]">
+              <TiltCard className="group h-full steel-sheen rounded-[var(--radius-md)] border border-black/10 bg-graphite/80 p-6 shadow-[var(--shadow-soft)]">
                 <div className="mb-5 flex items-center justify-between">
                   <div className="h-px w-12 bg-accent transition-all duration-500 group-hover:w-20" />
                   <span className="font-display text-xs tracking-[0.2em] text-steel">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </div>
-                <h3 className="font-display text-2xl tracking-[0.08em] text-white">
+                <h3 className="font-display text-2xl tracking-[0.08em] text-ink-text">
                   {service.title}
                 </h3>
                 <p className="mt-3 text-muted">{service.description}</p>
@@ -59,7 +59,7 @@ export function ServicesSection() {
           {SERVICE_IMAGES.map((image) => (
             <div
               key={image.src}
-              className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-md)] border border-white/10"
+              className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-md)] border border-black/10"
             >
               <Image
                 src={image.src}
@@ -82,12 +82,12 @@ export function ServicesSection() {
           <Stagger className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {FABRICATION_CAPABILITIES.map((item) => (
               <StaggerItem key={item}>
-                <TiltCard className="group flex h-full items-start gap-3 rounded-[var(--radius-md)] border border-white/10 bg-charcoal/60 px-4 py-4 transition-colors hover:border-accent/40">
+                <TiltCard className="group flex h-full items-start gap-3 rounded-[var(--radius-md)] border border-black/10 bg-charcoal/60 px-4 py-4 transition-colors hover:border-accent/40">
                   <span
                     className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent shadow-[0_0_12px_rgba(232,93,4,0.55)]"
                     aria-hidden
                   />
-                  <p className="text-steel-light transition-colors group-hover:text-white">
+                  <p className="text-steel-light transition-colors group-hover:text-ink-text">
                     {item}
                   </p>
                 </TiltCard>
@@ -97,7 +97,7 @@ export function ServicesSection() {
 
           <div className="mt-12 grid items-center gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <Reveal>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg)] border border-white/10">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg)] border border-black/10">
                 <Image
                   src={ABOUT_IMAGES.detailing}
                   alt="Suspended slab residential rebar detailing"
@@ -111,7 +111,7 @@ export function ServicesSection() {
               <p className="font-display text-sm tracking-[0.22em] text-accent">
                 Rebar detailing
               </p>
-              <h3 className="mt-3 font-display text-3xl tracking-[0.08em] text-white sm:text-4xl">
+              <h3 className="mt-3 font-display text-3xl tracking-[0.08em] text-ink-text sm:text-4xl">
                 Detailing & takeoff that keep jobs moving
               </h3>
               <p className="mt-4 max-w-lg text-muted">

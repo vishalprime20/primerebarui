@@ -1,30 +1,38 @@
 @import "tailwindcss";
 
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
 :root {
-  /* Brand palette — industrial steel + safety orange */
-  --color-charcoal: #141618;
-  --color-graphite: #22262b;
-  --color-slate: #353b42;
-  --color-steel: #9aa3ad;
-  --color-steel-light: #d0d6dc;
-  --color-ink: #0c1824;
-  --color-navy: #132337;
-  --color-white: #f5f6f7;
-  --color-muted: #a8b0b8;
+  /* Brand palette — warm paper day + safety orange */
+  --color-charcoal: #f4f1ea;
+  --color-graphite: #ffffff;
+  --color-slate: #d8d4cc;
+  --color-steel: #5c6570;
+  --color-steel-light: #3f4750;
+  --color-ink: #ebe7df;
+  --color-navy: #e4e0d8;
+  --color-white: #ffffff;
+  --color-ink-text: #1a1c1e;
+  --color-muted: #5a6168;
   --color-accent: #e85d04;
   --color-accent-hover: #ff6a12;
   --color-accent-deep: #c44d03;
 
   --background: var(--color-charcoal);
-  --foreground: var(--color-white);
+  --foreground: var(--color-ink-text);
 
   --space-section: clamp(4.5rem, 8vw, 7.5rem);
   --space-gutter: clamp(1.25rem, 4vw, 2.5rem);
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
-  --shadow-soft: 0 12px 40px rgba(0, 0, 0, 0.35);
-  --shadow-inset-metal: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --shadow-soft: 0 12px 40px rgba(26, 28, 30, 0.08);
+  --shadow-inset-metal: inset 0 1px 0 rgba(255, 255, 255, 0.7);
   --max-width: 72rem;
 
   --font-display: var(--font-display), "Arial Narrow", sans-serif;
@@ -42,6 +50,7 @@
   --color-ink: var(--color-ink);
   --color-navy: var(--color-navy);
   --color-muted: var(--color-muted);
+  --color-ink-text: var(--color-ink-text);
   --color-accent: var(--color-accent);
   --color-accent-hover: var(--color-accent-hover);
   --color-accent-deep: var(--color-accent-deep);
@@ -55,6 +64,7 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -87,11 +97,6 @@ body {
   color: var(--color-white);
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 img {
   max-width: 100%;
   height: auto;
@@ -106,16 +111,16 @@ img {
 
 .metal-grid {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(26, 28, 30, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 28, 30, 0.05) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
 .metal-gradient {
   background:
-    radial-gradient(ellipse 80% 60% at 20% 20%, rgba(154, 163, 173, 0.18), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 80% 70%, rgba(232, 93, 4, 0.12), transparent 50%),
-    linear-gradient(160deg, var(--color-ink) 0%, var(--color-charcoal) 45%, var(--color-graphite) 100%);
+    radial-gradient(ellipse 80% 60% at 20% 20%, rgba(154, 163, 173, 0.16), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 80% 70%, rgba(232, 93, 4, 0.08), transparent 50%),
+    linear-gradient(160deg, var(--color-ink) 0%, var(--color-charcoal) 45%, var(--color-navy) 100%);
 }
 
 .steel-sheen {
@@ -130,7 +135,7 @@ img {
   background: linear-gradient(
     115deg,
     transparent 30%,
-    rgba(255, 255, 255, 0.08) 48%,
+    rgba(255, 255, 255, 0.45) 48%,
     transparent 66%
   );
   transform: translateX(-120%);
@@ -166,7 +171,7 @@ img {
 
 .depth-surface {
   background:
-    linear-gradient(160deg, rgba(255, 255, 255, 0.04), transparent 40%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.7), transparent 40%),
     var(--color-graphite);
   box-shadow: var(--shadow-soft), var(--shadow-inset-metal);
 }
@@ -208,7 +213,8 @@ img {
 .film-grain {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
   background-size: 180px 180px;
-  mix-blend-mode: overlay;
+  mix-blend-mode: multiply;
+  opacity: 0.18;
   pointer-events: none;
 }
 

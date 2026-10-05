@@ -34,7 +34,7 @@ export function FabricationReel() {
   return (
     <section
       ref={ref}
-      className="relative z-10 overflow-hidden border-y border-white/8"
+      className="relative z-10 overflow-hidden border-y border-black/8"
       aria-label="Fabrication atmosphere"
     >
       <div className="relative min-h-[58vh] md:min-h-[70vh]">
@@ -63,8 +63,8 @@ export function FabricationReel() {
           </AnimatePresence>
         </motion.div>
 
-        <div className="absolute inset-0 bg-charcoal/55" />
-        <div className="absolute inset-0 bg-gradient-to-r from-charcoal via-charcoal/55 to-transparent" />
+        <div className="absolute inset-0 bg-black/55" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/55 to-transparent" />
         <div className="absolute inset-0 film-grain opacity-20" />
 
         <div className="container-site relative flex min-h-[58vh] items-end py-16 md:min-h-[70vh] md:py-24">
@@ -75,7 +75,7 @@ export function FabricationReel() {
             <h2 className="mt-4 font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.92] tracking-[0.04em] text-white">
               Steel in motion
             </h2>
-            <p className="mt-4 max-w-md text-base text-steel-light sm:text-lg">
+            <p className="mt-4 max-w-md text-base text-white/85 sm:text-lg">
               From bend to bundle — fabrication built for speed, precision, and
               jobsites across New York and New Jersey.
             </p>

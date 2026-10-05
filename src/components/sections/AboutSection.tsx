@@ -34,7 +34,7 @@ export function AboutSection() {
 
           <Reveal delay={0.1} className="relative">
             <motion.div
-              className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg)] border border-white/10 shadow-[var(--shadow-soft)]"
+              className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-lg)] border border-black/10 shadow-[var(--shadow-soft)]"
               whileHover={reduceMotion ? undefined : { scale: 1.015 }}
               transition={{ type: "spring", stiffness: 200, damping: 22 }}
             >
@@ -45,7 +45,7 @@ export function AboutSection() {
                 sizes="(max-width: 1024px) 100vw, 45vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6">
                 <p className="font-display text-sm tracking-[0.18em] text-accent">
                   Facility
@@ -57,7 +57,7 @@ export function AboutSection() {
             </motion.div>
 
             <motion.div
-              className="absolute -bottom-6 -left-4 hidden w-[46%] overflow-hidden rounded-[var(--radius-md)] border border-white/15 shadow-[var(--shadow-soft)] sm:block"
+              className="absolute -bottom-6 -left-4 hidden w-[46%] overflow-hidden rounded-[var(--radius-md)] border border-black/15 shadow-[var(--shadow-soft)] sm:block"
               initial={reduceMotion ? false : { opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -76,7 +76,7 @@ export function AboutSection() {
           </Reveal>
         </div>
 
-        <div className="mt-20 overflow-hidden rounded-[var(--radius-lg)] border border-white/8 bg-ink/70">
+        <div className="mt-20 overflow-hidden rounded-[var(--radius-lg)] border border-black/8 bg-ink/70">
           <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
             <div className="relative min-h-[240px] lg:min-h-full">
               <Image
@@ -86,11 +86,11 @@ export function AboutSection() {
                 sizes="(max-width: 1024px) 100vw, 55vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-ink/90 max-lg:bg-gradient-to-t max-lg:from-transparent max-lg:to-ink/90" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-ink/95 max-lg:bg-gradient-to-t max-lg:from-transparent max-lg:to-ink/95" />
             </div>
             <div className="p-6 sm:p-10">
               <Reveal className="mb-10 max-w-xl">
-                <h3 className="font-display text-3xl tracking-[0.08em] text-white">
+                <h3 className="font-display text-3xl tracking-[0.08em] text-ink-text">
                   By the numbers
                 </h3>
                 <p className="mt-3 text-muted">
@@ -101,9 +101,9 @@ export function AboutSection() {
 
               <Stagger className="grid gap-4 sm:grid-cols-2">
                 <StaggerItem>
-                  <div className="rounded-[var(--radius-md)] border border-white/10 bg-graphite/60 p-8">
-                    <p className="font-display text-6xl tracking-[0.04em] text-accent sm:text-7xl">
-                      <CountUp end={SITE.yearEstablished} />
+                  <div className="rounded-[var(--radius-md)] border border-black/10 bg-graphite/60 p-8">
+                    <p className="font-display text-4xl tracking-[0.02em] text-accent whitespace-nowrap sm:text-5xl">
+                      <CountUp end={SITE.yearEstablished} grouped={false} />
                     </p>
                     <p className="mt-3 text-sm uppercase tracking-[0.16em] text-muted">
                       Year Established
@@ -111,9 +111,9 @@ export function AboutSection() {
                   </div>
                 </StaggerItem>
                 <StaggerItem>
-                  <div className="rounded-[var(--radius-md)] border border-white/10 bg-graphite/60 p-8">
-                    <p className="font-display text-6xl tracking-[0.04em] text-white sm:text-7xl">
-                      <CountUp end={SITE.projectsCompleted} suffix="+" />
+                  <div className="rounded-[var(--radius-md)] border border-black/10 bg-graphite/60 p-8">
+                    <p className="font-display text-4xl tracking-[0.02em] text-ink-text whitespace-nowrap sm:text-5xl">
+                      <CountUp end={SITE.projectsCompleted} suffix="+" grouped={false} />
                     </p>
                     <p className="mt-3 text-sm uppercase tracking-[0.16em] text-muted">
                       Projects Completed

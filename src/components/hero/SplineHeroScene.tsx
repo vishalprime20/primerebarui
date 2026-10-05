@@ -19,7 +19,7 @@ const Spline = dynamic(() => import("@splinetool/react-spline"), {
 function SplineSkeleton() {
   return (
     <div className="absolute inset-0 overflow-hidden" aria-hidden>
-      <div className="absolute inset-0 bg-gradient-to-br from-charcoal via-[#1c2026] to-ink" />
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-[#1c2026] to-black" />
       <div
         className="absolute inset-[12%] rounded-full opacity-40 blur-3xl"
         style={{

@@ -23,12 +23,12 @@ export function ContactSection() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <aside className="h-fit rounded-[var(--radius-md)] border border-white/10 bg-graphite/80 p-6 sm:p-8">
+            <aside className="h-fit rounded-[var(--radius-md)] border border-black/10 bg-graphite/80 p-6 sm:p-8">
               <p className="font-display text-sm tracking-[0.18em] text-accent">
                 Head Office
               </p>
               <address className="mt-4 not-italic">
-                <p className="font-display text-2xl tracking-[0.08em] text-white">
+                <p className="font-display text-2xl tracking-[0.08em] text-ink-text">
                   {SITE.contact.address.name}
                 </p>
                 <p className="mt-2 text-muted">{SITE.contact.address.line1}</p>
@@ -38,12 +38,12 @@ export function ContactSection() {
                 </p>
               </address>
 
-              <div className="mt-8 space-y-3 border-t border-white/10 pt-6 text-muted">
+              <div className="mt-8 space-y-3 border-t border-black/10 pt-6 text-muted">
                 <p>
                   <span className="block text-xs uppercase tracking-[0.16em] text-steel">
                     Contact
                   </span>
-                  <span className="text-white">{SITE.contact.person}</span>
+                  <span className="text-ink-text">{SITE.contact.person}</span>
                 </p>
                 <p>
                   <span className="block text-xs uppercase tracking-[0.16em] text-steel">
@@ -69,7 +69,7 @@ export function ContactSection() {
                 </p>
               </div>
 
-              <div className="mt-8 overflow-hidden rounded-[var(--radius-md)] border border-white/10">
+              <div className="mt-8 overflow-hidden rounded-[var(--radius-md)] border border-black/10">
                 <iframe
                   title="Prime Rebar head office map"
                   src={mapSrc}

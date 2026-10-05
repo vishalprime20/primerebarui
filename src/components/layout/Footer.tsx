@@ -21,7 +21,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="border-t border-white/10 bg-ink">
+    <footer className="border-t border-black/10 bg-ink">
       <div className="container-site grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div className="lg:col-span-2">
           <BrandLogo size="footer" />
@@ -45,7 +45,7 @@ export function Footer() {
                     e.preventDefault();
                     scrollToHash(link.href);
                   }}
-                  className="focus-ring text-muted transition-colors hover:text-white"
+                  className="focus-ring text-muted transition-colors hover:text-ink-text"
                 >
                   {link.label}
                 </a>
@@ -59,7 +59,7 @@ export function Footer() {
             Contact
           </p>
           <address className="mt-4 not-italic text-muted">
-            <p className="text-white">{SITE.contact.address.name}</p>
+            <p className="text-ink-text">{SITE.contact.address.name}</p>
             <p>{SITE.contact.address.line1}</p>
             <p>
               {SITE.contact.address.city}, {SITE.contact.address.state}{" "}
@@ -86,7 +86,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/8">
+      <div className="border-t border-black/8">
         <div className="container-site flex flex-col gap-2 py-5 text-sm text-steel sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {SITE.name}. All rights reserved.
