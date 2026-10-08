@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { GALLERY_IMAGES } from "@/lib/data";
+import { GALLERY_IMAGES, type GalleryItem } from "@/lib/data";
 
 export function GalleryGrid() {
   const [index, setIndex] = useState(0);
@@ -11,6 +11,7 @@ export function GalleryGrid() {
   const thumbRef = useRef<HTMLDivElement>(null);
   const total = GALLERY_IMAGES.length;
   const current = GALLERY_IMAGES[index];
+  const isVideo = current.kind === "video";
 
   const go = useCallback(
     (dir: -1 | 1) => {
@@ -22,10 +23,10 @@ export function GalleryGrid() {
   const goTo = useCallback((i: number) => setIndex(i), []);
 
   useEffect(() => {
-    if (reduceMotion) return;
+    if (reduceMotion || isVideo) return;
     const id = window.setInterval(() => go(1), 5000);
     return () => window.clearInterval(id);
-  }, [go, reduceMotion]);
+  }, [go, reduceMotion, isVideo]);
 
   // Keep active thumb in view without scrolling the page (scrollIntoView was
   // jumping the viewport to #gallery whenever the slider advanced).
@@ -69,19 +70,20 @@ export function GalleryGrid() {
               type="button"
               className="absolute inset-0 focus-ring"
               onClick={() => setLightbox(true)}
-              aria-label={`Open image: ${current.alt}`}
+              aria-label={
+                isVideo ? `Play video: ${current.alt}` : `Open image: ${current.alt}`
+              }
               initial={reduceMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={reduceMotion ? undefined : { opacity: 0 }}
               transition={{ duration: 0.45 }}
             >
-              <GalleryPhoto
-                webp={current.webp}
-                src={current.src}
-                alt={current.alt}
+              <GalleryMedia
+                item={current}
                 fill
-                sizes="100vw"
+                autoPlay={!reduceMotion}
                 className="object-cover"
+                sizes="100vw"
                 priority={index === 0}
               />
               <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
@@ -92,7 +94,7 @@ export function GalleryGrid() {
             type="button"
             className="focus-ring absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-[var(--radius-sm)] border border-white/20 bg-black/75 px-3 py-3 text-white backdrop-blur-sm sm:left-5"
             onClick={() => go(-1)}
-            aria-label="Previous image"
+            aria-label="Previous"
           >
             ←
           </button>
@@ -100,7 +102,7 @@ export function GalleryGrid() {
             type="button"
             className="focus-ring absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-[var(--radius-sm)] border border-white/20 bg-black/75 px-3 py-3 text-white backdrop-blur-sm sm:right-5"
             onClick={() => go(1)}
-            aria-label="Next image"
+            aria-label="Next"
           >
             →
           </button>
@@ -131,7 +133,7 @@ export function GalleryGrid() {
                 data-thumb={i}
                 role="tab"
                 aria-selected={active}
-                aria-label={`Show image ${i + 1}`}
+                aria-label={`Show ${image.kind === "video" ? "video" : "image"} ${i + 1}`}
                 onClick={() => goTo(i)}
                 className={`focus-ring relative h-16 w-24 shrink-0 overflow-hidden rounded-[var(--radius-sm)] border transition-colors sm:h-20 sm:w-28 ${
                   active
@@ -139,13 +141,12 @@ export function GalleryGrid() {
                     : "border-black/10 opacity-70 hover:opacity-100"
                 }`}
               >
-                <GalleryPhoto
-                  webp={image.webp}
-                  src={image.src}
-                  alt=""
+                <GalleryMedia
+                  item={image}
                   fill
-                  sizes="112px"
+                  autoPlay={false}
                   className="object-cover"
+                  sizes="112px"
                   loading="lazy"
                 />
               </button>
@@ -180,7 +181,7 @@ export function GalleryGrid() {
                 e.stopPropagation();
                 go(-1);
               }}
-              aria-label="Previous image"
+              aria-label="Previous"
             >
               ←
             </button>
@@ -191,7 +192,7 @@ export function GalleryGrid() {
                 e.stopPropagation();
                 go(1);
               }}
-              aria-label="Next image"
+              aria-label="Next"
             >
               →
             </button>
@@ -203,10 +204,9 @@ export function GalleryGrid() {
               exit={reduceMotion ? undefined : { scale: 0.96, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <GalleryPhoto
-                webp={current.webp}
-                src={current.src}
-                alt={current.alt}
+              <GalleryMedia
+                item={current}
+                autoPlay={!reduceMotion}
                 width={1600}
                 height={1066}
                 className="max-h-[85vh] w-full rounded-[var(--radius-md)] object-contain"
@@ -224,6 +224,64 @@ export function GalleryGrid() {
         ) : null}
       </AnimatePresence>
     </>
+  );
+}
+
+function GalleryMedia({
+  item,
+  fill,
+  width,
+  height,
+  sizes,
+  className = "",
+  priority = false,
+  loading,
+  autoPlay = false,
+}: {
+  item: GalleryItem;
+  fill?: boolean;
+  width?: number;
+  height?: number;
+  sizes?: string;
+  className?: string;
+  priority?: boolean;
+  loading?: "lazy" | "eager";
+  autoPlay?: boolean;
+}) {
+  if (item.kind === "video") {
+    const videoClass = fill
+      ? `absolute inset-0 h-full w-full ${className}`
+      : className;
+    return (
+      <span className={fill ? "absolute inset-0 block bg-ink" : "relative block"}>
+        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+        <video
+          src={item.src}
+          poster={item.poster}
+          className={videoClass}
+          muted
+          loop
+          playsInline
+          autoPlay={autoPlay}
+          preload={autoPlay ? "auto" : "metadata"}
+        />
+      </span>
+    );
+  }
+
+  return (
+    <GalleryPhoto
+      webp={item.webp ?? item.src}
+      src={item.src}
+      alt={item.alt}
+      fill={fill}
+      width={width}
+      height={height}
+      sizes={sizes}
+      className={className}
+      priority={priority}
+      loading={loading}
+    />
   );
 }
 

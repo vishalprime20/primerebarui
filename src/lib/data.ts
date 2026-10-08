@@ -1,4 +1,10 @@
-import { galleryWebp, projectPhoto, siteAsset } from "@/lib/siteAssets";
+import {
+  galleryJpg,
+  galleryVideo,
+  galleryWebp,
+  projectPhoto,
+  siteAsset,
+} from "@/lib/siteAssets";
 
 export type ProjectFilter = "all" | "ny" | "nj" | "airport" | "bridge" | "residential";
 
@@ -303,26 +309,22 @@ export const PROJECTS: Project[] = [
   },
 ];
 
-/** Gallery photos from the live site asset pack (public/images/site-files). */
-export const GALLERY_IMAGES = [
+export type GalleryItem = {
+  id: string;
+  alt: string;
+  src: string;
+  kind: "image" | "video";
+  webp?: string;
+  poster?: string;
+};
+
+const GALLERY_STILLS: { id: string; file: string; alt: string }[] = [
   { id: "dsc-0003", file: "DSC_0003.JPG", alt: "Rebar fabrication shop" },
   { id: "dsc-0022", file: "DSC_0022.JPG", alt: "Shop floor fabrication" },
   { id: "dsc-0024", file: "DSC_0024.JPG", alt: "Reinforcing steel in process" },
   { id: "dsc-0025", file: "DSC_0025.JPG", alt: "Fabrication equipment and steel" },
   { id: "dsc-0027", file: "DSC_0027.JPG", alt: "Rebar staging and bundling" },
-  { id: "dsc-0031", file: "DSC_0031.JPG", alt: "Detail of fabricated rebar" },
-  { id: "dsc-0039", file: "DSC_0039.JPG", alt: "Shop production floor" },
-  { id: "dsc-0059", file: "DSC_0059.JPG", alt: "Steel reinforcement inventory" },
-  { id: "dsc-0060", file: "DSC_0060.JPG", alt: "Fabricated rebar assemblies" },
-  { id: "dsc-0066", file: "DSC_0066.JPG", alt: "Bending and cutting work" },
-  { id: "dsc-0067", file: "DSC_0067.JPG", alt: "Prime Rebar shop operations" },
-  { id: "dsc-0078", file: "DSC_0078.JPG", alt: "Reinforcing bars prepared for delivery" },
-  { id: "dsc-0080", file: "DSC_0080.JPG", alt: "Industrial fabrication environment" },
-  { id: "dsc-0112", file: "DSC_0112.JPG", alt: "Shop floor steel handling" },
-  { id: "dsc-0122", file: "DSC_0122.JPG", alt: "Rebar fabrication detail" },
   { id: "dsc-0132", file: "DSC_0132.JPG", alt: "Fabrication and bundling" },
-  { id: "dsc-0133", file: "DSC_0133.JPG", alt: "Close-up reinforcing steel" },
-  { id: "dsc-0137", file: "DSC_0137.JPG", alt: "Shop crane and steel stock" },
   { id: "dsc-0138", file: "DSC_0138.JPG", alt: "Rebar production line" },
   { id: "dsc-0142", file: "DSC_0142.JPG", alt: "Finished rebar bundles" },
   { id: "dsc-0156", file: "DSC_0156.JPG", alt: "Fabrication facility interior" },
@@ -331,12 +333,6 @@ export const GALLERY_IMAGES = [
   { id: "dsc-0182", file: "DSC_0182.JPG", alt: "Rebar staging area" },
   { id: "dsc-0184", file: "DSC_0184.JPG", alt: "Industrial rebar fabrication" },
   { id: "dsc-0193", file: "DSC_0193.JPG", alt: "Fabricated reinforcing steel" },
-  { id: "dsc-0198", file: "DSC_0198.JPG", alt: "Prime Rebar production" },
-  { id: "dsc-0206", file: "DSC_0206.JPG", alt: "Shop equipment and steel" },
-  { id: "dsc-0219", file: "DSC_0219.JPG", alt: "Rebar ready for transport" },
-  { id: "dsc-0224", file: "DSC_0224.JPG", alt: "Prime Rebar fabrication shop floor" },
-  { id: "dsc-0225", file: "DSC_0225.JPG", alt: "Reinforcing steel in the shop" },
-  { id: "dsc-0227", file: "DSC_0227.JPG", alt: "Full-service fabrication facility" },
   {
     id: "wa-939-1",
     file: "WhatsApp Image 2024-07-24 at 9.39.46 AM (1).jpeg",
@@ -372,33 +368,63 @@ export const GALLERY_IMAGES = [
     file: "WhatsApp Image 2024-07-24 at 9.39.46 AM (8).jpeg",
     alt: "Field reinforcing steel",
   },
+];
+
+const YARD_STILLS: { id: string; alt: string }[] = [
+  {
+    id: "yard-docks-3-4",
+    alt: "Prime Rebar Swedesboro yard, docks 3–4",
+  },
+  {
+    id: "yard-docks-1-3",
+    alt: "Prime Rebar fabrication docks 1–3",
+  },
+];
+
+const SERVICE_GALLERY_STILLS: { id: string; file: string; alt: string }[] = [
+  {
+    id: "dsc-0224",
+    file: "DSC_0224.JPG",
+    alt: "Coiled fabricated rebar",
+  },
   {
     id: "wa-942",
     file: "WhatsApp Image 2024-07-24 at 9.42.54 AM.jpeg",
-    alt: "Fabrication and delivery staging",
+    alt: "Shop operator at Schnell bender",
   },
+];
+
+/** Gallery media: looping yard demo, then kept shop/jobsite stills. */
+export const GALLERY_IMAGES: GalleryItem[] = [
   {
-    id: "wa-942-1",
-    file: "WhatsApp Image 2024-07-24 at 9.42.54 AM (1).jpeg",
-    alt: "Prime Rebar project photo",
+    id: "yard-demo",
+    alt: "Prime Rebar Swedesboro fabrication yard",
+    kind: "video",
+    src: galleryVideo("prime-rebar-9-28-26.mp4"),
+    poster: galleryJpg("yard-docks-3-4"),
   },
-  {
-    id: "wa-943",
-    file: "WhatsApp Image 2024-07-24 at 9.42.55 AM.jpeg",
-    alt: "Shop and project atmosphere",
-  },
-  {
-    id: "slab",
-    file: "Suspended-Slab-Residential-Block.png",
-    alt: "Suspended slab residential rebar detailing",
-  },
-].map((item) => ({
-  id: item.id,
-  file: item.file,
-  src: siteAsset(item.file),
-  webp: galleryWebp(item.id),
-  alt: item.alt,
-}));
+  ...GALLERY_STILLS.map((item) => ({
+    id: item.id,
+    alt: item.alt,
+    kind: "image" as const,
+    src: siteAsset(item.file),
+    webp: galleryWebp(item.id),
+  })),
+  ...YARD_STILLS.map((item) => ({
+    id: item.id,
+    alt: item.alt,
+    kind: "image" as const,
+    src: galleryJpg(item.id),
+    webp: galleryWebp(item.id),
+  })),
+  ...SERVICE_GALLERY_STILLS.map((item) => ({
+    id: item.id,
+    alt: item.alt,
+    kind: "image" as const,
+    src: siteAsset(item.file),
+    webp: galleryWebp(item.id),
+  })),
+];
 
 /** Atmospheric stills for the fabrication reel (from site-files). */
 export const FABRICATION_FRAMES = [
