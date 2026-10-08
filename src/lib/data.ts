@@ -1,4 +1,4 @@
-import { siteAsset } from "@/lib/siteAssets";
+import { galleryWebp, projectPhoto, siteAsset } from "@/lib/siteAssets";
 
 export type ProjectFilter = "all" | "ny" | "nj" | "airport" | "bridge" | "residential";
 
@@ -7,6 +7,13 @@ export type Project = {
   name: string;
   location: string;
   filters: ProjectFilter[];
+  year?: number;
+  scope?: string;
+  tons?: number;
+  barSizes?: string;
+  coatings?: string;
+  services?: string[];
+  photo?: string;
 };
 
 /** Services copy aligned with https://www.primerebar.com/ */
@@ -133,24 +140,28 @@ export const PROJECTS: Project[] = [
     name: "JFK International Airport Terminal 6",
     location: "Queens, NY",
     filters: ["ny", "airport"],
+    photo: projectPhoto("jfk-t6"),
   },
   {
     id: "jfk-substation",
     name: "JFK Central Substation #2",
     location: "Queens, NY",
     filters: ["ny", "airport"],
+    photo: projectPhoto("jfk-substation"),
   },
   {
     id: "5th-ave-bridge",
     name: "Reconstruction of 5th Avenue Bridge",
     location: "New York, NY",
     filters: ["ny", "bridge"],
+    photo: projectPhoto("5th-ave-bridge"),
   },
   {
     id: "jfk-t5",
     name: "JFK International Airport T5 Gate 30",
     location: "Queens, NY",
     filters: ["ny", "airport"],
+    photo: projectPhoto("jfk-t5"),
   },
   {
     id: "626-newark",
@@ -383,7 +394,9 @@ export const GALLERY_IMAGES = [
   },
 ].map((item) => ({
   id: item.id,
+  file: item.file,
   src: siteAsset(item.file),
+  webp: galleryWebp(item.id),
   alt: item.alt,
 }));
 

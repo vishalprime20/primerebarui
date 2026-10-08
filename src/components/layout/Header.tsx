@@ -4,33 +4,39 @@ import Link from "next/link";
 import { useEffect, useId, useState, type MouseEvent } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { NAV_LINKS, SITE } from "@/lib/constants";
+import { sectionIdFromHash } from "@/lib/projects";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { Button } from "@/components/ui/Button";
 
 const SECTION_IDS = NAV_LINKS.map((link) => link.href.replace("#", ""));
 
 export function Header() {
-  const [scrolled, setScrolled] = useState(false);
+  const [heroVisible, setHeroVisible] = useState(true);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("home");
   const reduceMotion = useReducedMotion();
   const navId = useId();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const hero = document.getElementById("home");
+    if (!hero) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setHeroVisible(entry.isIntersecting),
+      { rootMargin: "-72px 0px 0px 0px", threshold: 0 },
+    );
+    observer.observe(hero);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    const hash = window.location.hash.replace("#", "");
+    const hash = window.location.hash;
     if (!hash) return;
-    const el = document.getElementById(hash);
+    const id = sectionIdFromHash(hash);
+    const el = document.getElementById(id);
     if (!el) return;
     requestAnimationFrame(() => {
       el.scrollIntoView({ behavior: "auto" });
-      setActive(hash);
+      setActive(id);
     });
   }, []);
 
@@ -64,11 +70,11 @@ export function Header() {
   }, [open]);
 
   const closeMenu = () => setOpen(false);
-  const lightBar = scrolled || open;
+  const lightBar = open || !heroVisible;
 
   const scrollToHash = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const id = href.replace("#", "");
+    const id = sectionIdFromHash(href);
     const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
 
     if (id === "home") {

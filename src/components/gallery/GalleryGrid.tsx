@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { GALLERY_IMAGES } from "@/lib/data";
@@ -76,13 +75,14 @@ export function GalleryGrid() {
               exit={reduceMotion ? undefined : { opacity: 0 }}
               transition={{ duration: 0.45 }}
             >
-              <Image
+              <GalleryPhoto
+                webp={current.webp}
                 src={current.src}
                 alt={current.alt}
                 fill
                 sizes="100vw"
                 className="object-cover"
-                priority={index < 2}
+                priority={index === 0}
               />
               <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
             </motion.button>
@@ -139,7 +139,8 @@ export function GalleryGrid() {
                     : "border-black/10 opacity-70 hover:opacity-100"
                 }`}
               >
-                <Image
+                <GalleryPhoto
+                  webp={image.webp}
                   src={image.src}
                   alt=""
                   fill
@@ -202,7 +203,8 @@ export function GalleryGrid() {
               exit={reduceMotion ? undefined : { scale: 0.96, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <Image
+              <GalleryPhoto
+                webp={current.webp}
                 src={current.src}
                 alt={current.alt}
                 width={1600}
@@ -222,5 +224,70 @@ export function GalleryGrid() {
         ) : null}
       </AnimatePresence>
     </>
+  );
+}
+
+function GalleryPhoto({
+  webp,
+  src,
+  alt,
+  fill,
+  width,
+  height,
+  sizes,
+  className = "",
+  priority = false,
+  loading,
+}: {
+  webp: string;
+  src: string;
+  alt: string;
+  fill?: boolean;
+  width?: number;
+  height?: number;
+  sizes?: string;
+  className?: string;
+  priority?: boolean;
+  loading?: "lazy" | "eager";
+}) {
+  const [loaded, setLoaded] = useState(false);
+  const [useJpg, setUseJpg] = useState(false);
+
+  useEffect(() => {
+    setLoaded(false);
+    setUseJpg(false);
+  }, [src, webp]);
+
+  const imgClass = fill
+    ? `absolute inset-0 h-full w-full ${className}`
+    : className;
+
+  return (
+    <span className={fill ? "absolute inset-0 block" : "relative block"}>
+      {!loaded ? (
+        <span
+          className={`animate-pulse bg-slate ${fill ? "absolute inset-0" : "absolute inset-0 min-h-[12rem] rounded-[var(--radius-md)]"}`}
+          aria-hidden
+        />
+      ) : null}
+      <picture>
+        {useJpg ? null : <source srcSet={webp} type="image/webp" sizes={sizes} />}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          sizes={sizes}
+          className={imgClass}
+          loading={priority ? "eager" : loading ?? "lazy"}
+          fetchPriority={priority ? "high" : "auto"}
+          onLoad={() => setLoaded(true)}
+          onError={() => {
+            setUseJpg(true);
+          }}
+        />
+      </picture>
+    </span>
   );
 }

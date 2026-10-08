@@ -7,7 +7,7 @@ import {
   PLACEMENT_ENVS,
   type PlacementEnv,
 } from "@/lib/coatingGuide";
-import { sendQuoteNotes } from "@/lib/quoteHandoff";
+import { sendToolQuote } from "@/lib/quoteHandoff";
 
 export function CoatingPicker() {
   const [env, setEnv] = useState<PlacementEnv>("dry-interior");
@@ -25,7 +25,7 @@ export function CoatingPicker() {
     ]
       .filter(Boolean)
       .join("\n");
-    sendQuoteNotes(notes);
+    void sendToolQuote(notes, "Coating picker");
   };
 
   return (

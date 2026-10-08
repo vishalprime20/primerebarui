@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { consumeQuoteNotes } from "@/lib/quoteHandoff";
+import { postFormPayload } from "@/lib/formSubmit";
 
 const PROJECT_TYPES = [
   "Commercial",
@@ -19,17 +20,25 @@ const inputClass =
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [projectType, setProjectType] = useState("");
   const [focusMessage, setFocusMessage] = useState(false);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const applyNotes = () => {
-      const notes = consumeQuoteNotes();
-      if (!notes) return;
+      const payload = consumeQuoteNotes();
+      if (!payload) return;
       setSubmitted(false);
-      setMessage((prev) => (prev.trim() ? `${prev.trim()}\n\n${notes}` : notes));
+      setError("");
+      setMessage((prev) =>
+        prev.trim() ? `${prev.trim()}\n\n${payload.notes}` : payload.notes,
+      );
+      if (payload.projectType) setProjectType(payload.projectType);
       setFocusMessage(true);
     };
 
@@ -46,9 +55,36 @@ export function ContactForm() {
     setFocusMessage(false);
   }, [submitted, focusMessage, message]);
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const drawings = data.get("drawings");
+    const file = drawings instanceof File && drawings.size > 0 ? drawings : null;
+
+    setSending(true);
+    setError("");
+    const result = await postFormPayload(
+      {
+        _subject: "Prime Rebar quote request",
+        name: String(data.get("name") ?? ""),
+        company: String(data.get("company") ?? ""),
+        email: String(data.get("email") ?? ""),
+        phone: String(data.get("phone") ?? ""),
+        projectType: String(data.get("projectType") ?? ""),
+        pourDate: String(data.get("pourDate") ?? ""),
+        message: String(data.get("message") ?? ""),
+        drawingsName: file?.name ?? "",
+      },
+      file,
+    );
+    setSending(false);
+
+    if (result.skipped || result.ok) {
+      setSubmitted(true);
+      return;
+    }
+    setError("Could not send the request. Please try again or email the office.");
   };
 
   if (submitted) {
@@ -60,10 +96,10 @@ export function ContactForm() {
         role="status"
       >
         <p className="font-display text-3xl tracking-[0.08em] text-ink-text">
-          Thanks for submitting!
+          Thanks, we’ll reply within one business day.
         </p>
         <p className="mt-3 text-muted">
-          We received your request and will get back to you shortly.
+          We received your request and will follow up by email or phone.
         </p>
         <Button
           className="mt-6"
@@ -71,6 +107,9 @@ export function ContactForm() {
           onClick={() => {
             setSubmitted(false);
             setMessage("");
+            setProjectType("");
+            setError("");
+            formRef.current?.reset();
           }}
         >
           Send another message
@@ -81,6 +120,7 @@ export function ContactForm() {
 
   return (
     <form
+      ref={formRef}
       onSubmit={onSubmit}
       className="rounded-[var(--radius-md)] border border-black/10 bg-graphite/70 p-6 sm:p-8"
     >
@@ -121,8 +161,14 @@ export function ContactForm() {
             className={inputClass}
           />
         </Field>
-        <Field label="Project type" id="projectType" className="sm:col-span-2">
-          <select id="projectType" name="projectType" className={inputClass}>
+        <Field label="Project type" id="projectType">
+          <select
+            id="projectType"
+            name="projectType"
+            className={inputClass}
+            value={projectType}
+            onChange={(e) => setProjectType(e.target.value)}
+          >
             <option value="">Select a type</option>
             {PROJECT_TYPES.map((type) => (
               <option key={type} value={type}>
@@ -130,6 +176,26 @@ export function ContactForm() {
               </option>
             ))}
           </select>
+        </Field>
+        <Field label="Pour date" id="pourDate">
+          <input
+            id="pourDate"
+            name="pourDate"
+            type="date"
+            className={`${inputClass} [color-scheme:light]`}
+          />
+        </Field>
+        <Field label="Drawings" id="drawings" className="sm:col-span-2">
+          <input
+            id="drawings"
+            name="drawings"
+            type="file"
+            accept=".pdf,.dwg,.dxf,.zip,.jpg,.jpeg,.png,.webp"
+            className={`${inputClass} file:mr-3 file:rounded-sm file:border-0 file:bg-charcoal file:px-3 file:py-1.5 file:text-sm file:text-ink-text`}
+          />
+          <span className="mt-1.5 block text-xs text-steel">
+            Optional. The file name is included with the request.
+          </span>
         </Field>
         <Field label="Message" id="message" required className="sm:col-span-2">
           <textarea
@@ -145,9 +211,15 @@ export function ContactForm() {
         </Field>
       </div>
 
+      {error ? (
+        <p className="mt-4 text-sm text-accent" role="alert">
+          {error}
+        </p>
+      ) : null}
+
       <div className="mt-6">
-        <Button type="submit" magnetic className="w-full sm:w-auto">
-          Submit Request
+        <Button type="submit" magnetic className="w-full sm:w-auto" disabled={sending}>
+          {sending ? "Sending…" : "Submit Request"}
         </Button>
       </div>
     </form>

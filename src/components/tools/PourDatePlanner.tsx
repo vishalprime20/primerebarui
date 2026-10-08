@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { sendQuoteNotes } from "@/lib/quoteHandoff";
+import { sendToolQuote } from "@/lib/quoteHandoff";
 import {
   DRAWING_LEAD_DAYS,
   drawingDeadline,
@@ -35,7 +35,7 @@ export function PourDatePlanner() {
     ]
       .filter(Boolean)
       .join("\n");
-    sendQuoteNotes(notes);
+    void sendToolQuote(notes, "Pour-date planner");
   };
 
   return (

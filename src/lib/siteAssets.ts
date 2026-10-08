@@ -8,3 +8,13 @@ export function siteAsset(filename: string) {
     .join("/");
   return `${BASE}/images/site-files/${encoded}`;
 }
+
+/** Converted gallery still under public/images/gallery. */
+export function galleryWebp(id: string) {
+  return `${BASE}/images/gallery/${id}.webp`;
+}
+
+/** Featured-project still under public/images/projects. */
+export function projectPhoto(id: string) {
+  return `${BASE}/images/projects/${id}.jpg`;
+}

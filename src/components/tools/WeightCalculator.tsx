@@ -9,7 +9,7 @@ import {
   lineWeightLb,
   type BarSize,
 } from "@/lib/barWeights";
-import { sendQuoteNotes } from "@/lib/quoteHandoff";
+import { sendToolQuote } from "@/lib/quoteHandoff";
 
 type Line = {
   id: number;
@@ -57,7 +57,7 @@ export function WeightCalculator() {
       ...rows,
       `Total: ${formatLb(totalLb)} lb / ${formatTons(totalLb)} ton`,
     ].join("\n");
-    sendQuoteNotes(notes);
+    void sendToolQuote(notes, "Weight calculator");
   };
 
   return (
