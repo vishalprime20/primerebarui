@@ -115,22 +115,30 @@ export function ServicesSection() {
           })}
         </Stagger>
 
-        <Reveal className="mt-10 grid gap-3 sm:grid-cols-3">
-          {SERVICE_IMAGES.map((image) => (
-            <div
-              key={image.src}
-              className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-md)] border border-black/10"
-            >
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                sizes="(max-width: 640px) 100vw, 33vw"
-                className="object-cover"
-              />
-            </div>
-          ))}
-        </Reveal>
+        {SERVICE_IMAGES.length ? (
+          <Reveal
+            className={`mt-10 grid gap-3 ${
+              SERVICE_IMAGES.length === 1
+                ? "max-w-lg"
+                : "sm:grid-cols-2 lg:grid-cols-3"
+            }`}
+          >
+            {SERVICE_IMAGES.map((image) => (
+              <div
+                key={image.src}
+                className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-md)] border border-black/10"
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 33vw"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </Reveal>
+        ) : null}
 
         <div id="fabrication" className="mt-16 scroll-mt-20">
           <SectionHeading

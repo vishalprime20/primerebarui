@@ -59,14 +59,6 @@ export const SERVICES = [
 /** Shop / services stills shown on the live site. */
 export const SERVICE_IMAGES = [
   {
-    src: siteAsset("DSC_0224.JPG"),
-    alt: "Prime Rebar fabrication shop floor",
-  },
-  {
-    src: siteAsset("WhatsApp Image 2024-07-24 at 9.42.54 AM.jpeg"),
-    alt: "Rebar fabrication and handling on site",
-  },
-  {
     src: siteAsset("DSC_0225.JPG"),
     alt: "Reinforcing steel staged in the shop",
   },
@@ -318,10 +310,13 @@ export type GalleryItem = {
   poster?: string;
 };
 
-const GALLERY_STILLS: { id: string; file: string; alt: string }[] = [
+const GALLERY_STILLS_HEAD: { id: string; file: string; alt: string }[] = [
   { id: "dsc-0003", file: "DSC_0003.JPG", alt: "Rebar fabrication shop" },
   { id: "dsc-0022", file: "DSC_0022.JPG", alt: "Shop floor fabrication" },
   { id: "dsc-0024", file: "DSC_0024.JPG", alt: "Reinforcing steel in process" },
+];
+
+const GALLERY_STILLS_REST: { id: string; file: string; alt: string }[] = [
   { id: "dsc-0025", file: "DSC_0025.JPG", alt: "Fabrication equipment and steel" },
   { id: "dsc-0027", file: "DSC_0027.JPG", alt: "Rebar staging and bundling" },
   { id: "dsc-0132", file: "DSC_0132.JPG", alt: "Fabrication and bundling" },
@@ -370,6 +365,16 @@ const GALLERY_STILLS: { id: string; file: string; alt: string }[] = [
   },
 ];
 
+function galleryStill(item: { id: string; file: string; alt: string }): GalleryItem {
+  return {
+    id: item.id,
+    alt: item.alt,
+    kind: "image",
+    src: siteAsset(item.file),
+    webp: galleryWebp(item.id),
+  };
+}
+
 const YARD_STILLS: { id: string; alt: string }[] = [
   {
     id: "yard-docks-3-4",
@@ -387,11 +392,6 @@ const SERVICE_GALLERY_STILLS: { id: string; file: string; alt: string }[] = [
     file: "DSC_0224.JPG",
     alt: "Coiled fabricated rebar",
   },
-  {
-    id: "wa-942",
-    file: "WhatsApp Image 2024-07-24 at 9.42.54 AM.jpeg",
-    alt: "Shop operator at Schnell bender",
-  },
 ];
 
 /** Gallery media: looping yard demo, then kept shop/jobsite stills. */
@@ -403,13 +403,7 @@ export const GALLERY_IMAGES: GalleryItem[] = [
     src: galleryVideo("prime-rebar-9-28-26.mp4"),
     poster: galleryJpg("yard-docks-3-4"),
   },
-  ...GALLERY_STILLS.map((item) => ({
-    id: item.id,
-    alt: item.alt,
-    kind: "image" as const,
-    src: siteAsset(item.file),
-    webp: galleryWebp(item.id),
-  })),
+  ...GALLERY_STILLS_HEAD.map(galleryStill),
   ...YARD_STILLS.map((item) => ({
     id: item.id,
     alt: item.alt,
@@ -417,13 +411,8 @@ export const GALLERY_IMAGES: GalleryItem[] = [
     src: galleryJpg(item.id),
     webp: galleryWebp(item.id),
   })),
-  ...SERVICE_GALLERY_STILLS.map((item) => ({
-    id: item.id,
-    alt: item.alt,
-    kind: "image" as const,
-    src: siteAsset(item.file),
-    webp: galleryWebp(item.id),
-  })),
+  ...GALLERY_STILLS_REST.map(galleryStill),
+  ...SERVICE_GALLERY_STILLS.map(galleryStill),
 ];
 
 /** Atmospheric stills for the fabrication reel (from site-files). */
