@@ -7,6 +7,10 @@ import { Stagger, StaggerItem } from "@/components/ui/Reveal";
 const items = [
   { label: "Established", value: String(SITE.yearEstablished) },
   { label: "Projects Completed", value: "1400+" },
+  {
+    label: "Total Tonnage",
+    value: SITE.totalTonnage.toLocaleString("en-US"),
+  },
   { label: "Coverage", value: "Tri-state delivery" },
 ];
 
@@ -16,7 +20,7 @@ export function TrustStrip() {
   return (
     <section className="relative z-10 border-y border-black/8 bg-graphite/90 backdrop-blur-sm">
       <div className="container-site">
-        <Stagger className="grid divide-y divide-black/8 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+        <Stagger className="grid divide-y divide-black/8 sm:grid-cols-2 lg:grid-cols-4 sm:divide-x sm:divide-y-0">
           {items.map((item, index) => (
             <StaggerItem key={item.label}>
               <motion.div

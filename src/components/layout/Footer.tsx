@@ -36,7 +36,7 @@ export function Footer() {
           <p className="font-display text-sm tracking-[0.18em] text-steel-light">
             Navigate
           </p>
-          <ul className="mt-4 space-y-2">
+          <ul className="mt-4 grid grid-cols-2 gap-x-8 gap-y-2">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <a

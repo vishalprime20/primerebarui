@@ -25,7 +25,7 @@ export function ToolsSection() {
         <SectionHeading
           eyebrow="Contractor tools"
           title="Free tools that start a quote"
-          description="Figure weight, coating, or drawing dates — then send the numbers straight into the quote form."
+          description="Figure weight, coating, or pour dates — then send the numbers straight into the quote form."
         />
 
         <div className="mt-10">

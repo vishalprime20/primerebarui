@@ -64,15 +64,12 @@ export function Hero() {
             animate="show"
             style={{ transformPerspective: 1200 }}
           >
-            <motion.div
+            <motion.p
               variants={item}
-              className="mb-5 inline-flex items-center gap-3"
+              className="mb-5 font-display text-sm tracking-[0.28em] text-accent drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] sm:text-base"
             >
-              <span className="h-px w-8 bg-accent" />
-              <p className="font-display text-sm tracking-[0.28em] text-accent drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] sm:text-base">
-                New York & New Jersey
-              </p>
-            </motion.div>
+              New York & New Jersey
+            </motion.p>
 
             <motion.h1
               variants={brand}
@@ -93,8 +90,9 @@ export function Hero() {
               variants={item}
               className="mt-4 max-w-md text-base text-white/90 drop-shadow-[0_2px_14px_rgba(0,0,0,0.9)] sm:text-lg"
             >
-              Full-service rebar fabrication from Swedesboro, NJ — built for
-              speed, precision, and competitive pricing across the tri-state.
+              Full-service Rebar fabrication from Swedesboro, NJ — built for
+              speed, precision, and competitive pricing across the tri-state
+              area.
             </motion.p>
 
             <motion.div

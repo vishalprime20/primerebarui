@@ -55,7 +55,7 @@ const SERVICE_META = [
 const DETAILING = new Set([
   "Rebar Detailing",
   "Rebar Takeoff",
-  "Quality Shop drawings",
+  "Quality Shop Drawings",
   "Quick Turnaround",
 ]);
 

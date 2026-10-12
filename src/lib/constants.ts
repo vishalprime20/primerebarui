@@ -4,9 +4,11 @@ export const SITE = {
   about:
     "At Prime Rebar, our top priority is you. We pride ourselves on providing exceptional customer service with a speedy turnaround and competitive prices.",
   aboutFacility:
-    "And with our full-service fabrication facility in Swedesboro, New Jersey, we are well situated to deliver steel efficiently across the tri-state area.",
+    "With our full-service fabrication facility in Swedesboro, New Jersey, we are well situated to deliver steel efficiently across the tri-state area.",
   yearEstablished: 2015,
   projectsCompleted: 1400,
+  /** Combined Total Tonnage from both Prime Rebar project workbooks. */
+  totalTonnage: 172737,
   contact: {
     person: "Shiya Lax",
     phone: "908.707.1234",

@@ -9,8 +9,8 @@ export default function NotFound() {
           Page not found
         </h1>
         <p className="mx-auto mt-4 max-w-md text-muted">
-          That page doesn’t exist. Head back to Prime Rebar’s home or jump to
-          contact.
+          That page doesn’t exist. Head back to Prime Rebar’s home or go to
+          Contact.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Button href="/">Back Home</Button>

@@ -12,6 +12,7 @@ import {
   ENRICHED_PROJECTS,
   boroughTiles,
   filterProjects,
+  formatTons,
   parseProjectHash,
   sectionIdFromHash,
   writeProjectHash,
@@ -30,7 +31,7 @@ const KIND_FILTERS: { id: ProjectKind | "all"; label: string }[] = [
   { id: "commercial", label: "Commercial" },
 ];
 
-type SortKey = "name" | "city" | "type" | "year";
+type SortKey = "name" | "city" | "type" | "year" | "tons";
 
 export function ProjectGrid() {
   const reduceMotion = useReducedMotion();
@@ -84,6 +85,12 @@ export function ProjectGrid() {
   const sortedRest = useMemo(() => {
     const copy = [...rest];
     copy.sort((a, b) => {
+      if (sortKey === "tons") {
+        const av = a.tons ?? -1;
+        const bv = b.tons ?? -1;
+        const cmp = av - bv;
+        return sortDir === "asc" ? cmp : -cmp;
+      }
       const av =
         sortKey === "name"
           ? a.name
@@ -118,13 +125,14 @@ export function ProjectGrid() {
 
   return (
     <div>
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Listed jobs" value={ENRICHED_PROJECTS.length} />
         <Stat
           label="Jobs delivered"
           value={SITE.projectsCompleted}
           suffix="+"
         />
+        <Stat label="Total tonnage" value={SITE.totalTonnage} grouped />
         <Stat label="Boroughs & counties" value={BOROUGH_COUNT} />
       </div>
 
@@ -254,15 +262,34 @@ export function ProjectGrid() {
                 >
                   <TiltCard
                     as="article"
-                    className="h-full rounded-[var(--radius-md)] border border-black/10 bg-graphite/80 p-5"
+                    className="h-full overflow-hidden rounded-[var(--radius-md)] border border-black/10 bg-graphite/80 p-0"
                   >
-                    <p className="font-display text-xs tracking-[0.16em] text-accent">
-                      {String(index + 1).padStart(2, "0")} · {project.kind.label}
-                    </p>
-                    <h3 className="mt-2 font-display text-xl tracking-[0.05em] text-ink-text">
-                      {project.name}
-                    </h3>
-                    <p className="mt-2 text-sm text-muted">{project.location}</p>
+                    <div className="relative aspect-[16/9] bg-ink">
+                      {project.photo ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={project.photo}
+                          alt=""
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 metal-grid opacity-60" />
+                      )}
+                    </div>
+                    <div className="p-5">
+                      <p className="font-display text-xs tracking-[0.16em] text-accent">
+                        {String(index + 1).padStart(2, "0")} · {project.kind.label}
+                      </p>
+                      <h3 className="mt-2 font-display text-xl tracking-[0.05em] text-ink-text">
+                        {project.name}
+                      </h3>
+                      <p className="mt-2 text-sm text-muted">{project.location}</p>
+                      {project.tons != null ? (
+                        <p className="mt-2 text-sm text-steel">
+                          {formatTons(project.tons)} tons
+                        </p>
+                      ) : null}
+                    </div>
                   </TiltCard>
                 </button>
               </motion.li>
@@ -300,6 +327,12 @@ export function ProjectGrid() {
                   dir={sortDir}
                   onClick={() => toggleSort("year")}
                 />
+                <SortHead
+                  label="Tons"
+                  active={sortKey === "tons"}
+                  dir={sortDir}
+                  onClick={() => toggleSort("tons")}
+                />
               </tr>
             </thead>
             <tbody>
@@ -316,6 +349,9 @@ export function ProjectGrid() {
                   <td className="px-3 py-3 text-muted">{project.kind.label}</td>
                   <td className="px-3 py-3 text-muted">
                     {project.year ?? "—"}
+                  </td>
+                  <td className="px-3 py-3 text-muted">
+                    {project.tons != null ? formatTons(project.tons) : "—"}
                   </td>
                 </tr>
               ))}
@@ -345,15 +381,17 @@ function Stat({
   label,
   value,
   suffix = "",
+  grouped = false,
 }: {
   label: string;
   value: number;
   suffix?: string;
+  grouped?: boolean;
 }) {
   return (
     <div className="rounded-[var(--radius-md)] border border-black/10 bg-graphite px-5 py-5">
       <p className="font-display text-3xl tracking-[0.06em] text-ink-text">
-        <CountUp end={value} suffix={suffix} grouped={false} />
+        <CountUp end={value} suffix={suffix} grouped={grouped} />
       </p>
       <p className="mt-2 text-xs uppercase tracking-[0.16em] text-muted">
         {label}
@@ -402,7 +440,9 @@ function FeaturedCard({
           project.coatings ? (
             <dl className="mt-4 flex flex-wrap gap-3 text-xs uppercase tracking-[0.12em] text-steel">
               {project.year ? <span>Year {project.year}</span> : null}
-              {project.tons != null ? <span>{project.tons} tons</span> : null}
+              {project.tons != null ? (
+                <span>{formatTons(project.tons)} tons</span>
+              ) : null}
               {project.barSizes ? <span>{project.barSizes}</span> : null}
               {project.coatings ? <span>{project.coatings}</span> : null}
             </dl>

@@ -73,6 +73,10 @@ export function enrichProject(project: Project): EnrichedProject {
 
 export const ENRICHED_PROJECTS = PROJECTS.map(enrichProject);
 
+export function formatTons(n: number) {
+  return n.toLocaleString("en-US", { maximumFractionDigits: 0 });
+}
+
 export function boroughTiles(projects: EnrichedProject[] = ENRICHED_PROJECTS) {
   const counts = new Map<BoroughId, { label: string; count: number }>();
   for (const project of projects) {

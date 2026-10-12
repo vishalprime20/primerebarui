@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { sendQuoteNotes } from "@/lib/quoteHandoff";
 import {
+  formatTons,
   quoteTypeForProject,
   type EnrichedProject,
 } from "@/lib/projects";
@@ -113,7 +114,7 @@ export function ProjectDrawer({ project, onClose }: ProjectDrawerProps) {
                   <Fact label="Year" value={String(project.year)} />
                 ) : null}
                 {project.tons != null ? (
-                  <Fact label="Tons" value={String(project.tons)} />
+                  <Fact label="Tons" value={formatTons(project.tons)} />
                 ) : null}
                 {project.barSizes ? (
                   <Fact label="Bar sizes" value={project.barSizes} />

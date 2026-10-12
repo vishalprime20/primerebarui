@@ -42,7 +42,7 @@ export function PourDatePlanner() {
     <div>
       <p className="max-w-2xl text-muted">
         Enter the pour date. We back up {DRAWING_LEAD_DAYS} calendar days so you
-        know when shop drawings need to be in.
+        know when shop drawings need to arrive.
       </p>
 
       <label

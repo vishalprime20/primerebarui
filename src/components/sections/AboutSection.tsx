@@ -99,7 +99,7 @@ export function AboutSection() {
                 </p>
               </Reveal>
 
-              <Stagger className="grid gap-4 sm:grid-cols-2">
+              <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <StaggerItem>
                   <div className="rounded-[var(--radius-md)] border border-black/10 bg-graphite/60 p-8">
                     <p className="font-display text-4xl tracking-[0.02em] text-accent whitespace-nowrap sm:text-5xl">
@@ -117,6 +117,16 @@ export function AboutSection() {
                     </p>
                     <p className="mt-3 text-sm uppercase tracking-[0.16em] text-muted">
                       Projects Completed
+                    </p>
+                  </div>
+                </StaggerItem>
+                <StaggerItem>
+                  <div className="rounded-[var(--radius-md)] border border-black/10 bg-graphite/60 p-8">
+                    <p className="font-display text-4xl tracking-[0.02em] text-ink-text whitespace-nowrap sm:text-5xl">
+                      <CountUp end={SITE.totalTonnage} />
+                    </p>
+                    <p className="mt-3 text-sm uppercase tracking-[0.16em] text-muted">
+                      Total Tonnage
                     </p>
                   </div>
                 </StaggerItem>

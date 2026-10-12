@@ -9,7 +9,7 @@ export function ProductsSection() {
         <SectionHeading
           eyebrow="Products"
           title="Steel, supports & assemblies"
-          description="Reinforcing steel, bar supports, assemblies, couplers, and mesh — fabricated to spec."
+          description="Reinforcing steel, bar supports, assemblies, couplers, mesh, and chairs — fabricated to spec."
         />
         <Reveal className="mt-12">
           <ProductTabs />
