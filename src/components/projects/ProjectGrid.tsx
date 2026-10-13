@@ -389,8 +389,8 @@ function Stat({
   grouped?: boolean;
 }) {
   return (
-    <div className="rounded-[var(--radius-md)] border border-black/10 bg-graphite px-5 py-5">
-      <p className="font-display text-3xl tracking-[0.06em] text-ink-text">
+    <div className="@container min-w-0 rounded-[var(--radius-md)] border border-black/10 bg-graphite px-4 py-5">
+      <p className="font-display whitespace-nowrap text-[clamp(1.35rem,14cqi,1.875rem)] tracking-normal text-ink-text">
         <CountUp end={value} suffix={suffix} grouped={grouped} />
       </p>
       <p className="mt-2 text-xs uppercase tracking-[0.16em] text-muted">

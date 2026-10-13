@@ -77,7 +77,7 @@ export function AboutSection() {
         </div>
 
         <div className="mt-20 overflow-hidden rounded-[var(--radius-lg)] border border-black/8 bg-ink/70">
-          <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="grid lg:grid-cols-2">
             <div className="relative min-h-[240px] lg:min-h-full">
               <Image
                 src={ABOUT_IMAGES.stats}
@@ -88,7 +88,7 @@ export function AboutSection() {
               />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent to-ink/95 max-lg:bg-gradient-to-t max-lg:from-transparent max-lg:to-ink/95" />
             </div>
-            <div className="p-6 sm:p-10">
+            <div className="min-w-0 p-5 sm:p-8">
               <Reveal className="mb-10 max-w-xl">
                 <h3 className="font-display text-3xl tracking-[0.08em] text-ink-text">
                   By the numbers
@@ -99,42 +99,59 @@ export function AboutSection() {
                 </p>
               </Reveal>
 
-              <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <StaggerItem>
-                  <div className="rounded-[var(--radius-md)] border border-black/10 bg-graphite/60 p-8">
-                    <p className="font-display text-4xl tracking-[0.02em] text-accent whitespace-nowrap sm:text-5xl">
-                      <CountUp end={SITE.yearEstablished} grouped={false} />
-                    </p>
-                    <p className="mt-3 text-sm uppercase tracking-[0.16em] text-muted">
-                      Year Established
-                    </p>
-                  </div>
-                </StaggerItem>
-                <StaggerItem>
-                  <div className="rounded-[var(--radius-md)] border border-black/10 bg-graphite/60 p-8">
-                    <p className="font-display text-4xl tracking-[0.02em] text-ink-text whitespace-nowrap sm:text-5xl">
-                      <CountUp end={SITE.projectsCompleted} suffix="+" grouped={false} />
-                    </p>
-                    <p className="mt-3 text-sm uppercase tracking-[0.16em] text-muted">
-                      Projects Completed
-                    </p>
-                  </div>
-                </StaggerItem>
-                <StaggerItem>
-                  <div className="rounded-[var(--radius-md)] border border-black/10 bg-graphite/60 p-8">
-                    <p className="font-display text-4xl tracking-[0.02em] text-ink-text whitespace-nowrap sm:text-5xl">
-                      <CountUp end={SITE.totalTonnage} />
-                    </p>
-                    <p className="mt-3 text-sm uppercase tracking-[0.16em] text-muted">
-                      Total Tonnage
-                    </p>
-                  </div>
-                </StaggerItem>
+              <Stagger className="grid grid-cols-3 gap-2 sm:gap-3">
+                <NumberStat
+                  value={SITE.yearEstablished}
+                  label="Year Established"
+                  grouped={false}
+                  accent
+                />
+                <NumberStat
+                  value={SITE.projectsCompleted}
+                  label="Projects Completed"
+                  suffix="+"
+                  grouped={false}
+                />
+                <NumberStat
+                  value={SITE.totalTonnage}
+                  label="Total Tonnage"
+                />
               </Stagger>
             </div>
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function NumberStat({
+  value,
+  label,
+  suffix = "",
+  grouped = true,
+  accent = false,
+}: {
+  value: number;
+  label: string;
+  suffix?: string;
+  grouped?: boolean;
+  accent?: boolean;
+}) {
+  return (
+    <StaggerItem className="min-w-0">
+      <div className="@container min-w-0 rounded-[var(--radius-md)] border border-black/10 bg-graphite/60 px-2.5 py-4 sm:px-3 sm:py-5">
+        <p
+          className={`font-display whitespace-nowrap leading-none tracking-normal ${
+            accent ? "text-accent" : "text-ink-text"
+          } text-[clamp(1.05rem,18cqi,2.35rem)]`}
+        >
+          <CountUp end={value} suffix={suffix} grouped={grouped} />
+        </p>
+        <p className="mt-2 text-[0.6rem] uppercase leading-snug tracking-[0.08em] text-muted sm:text-xs">
+          {label}
+        </p>
+      </div>
+    </StaggerItem>
   );
 }
