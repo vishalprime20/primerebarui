@@ -77,27 +77,8 @@ export function formatTons(n: number) {
   return n.toLocaleString("en-US", { maximumFractionDigits: 0 });
 }
 
-export function boroughTiles(projects: EnrichedProject[] = ENRICHED_PROJECTS) {
-  const counts = new Map<BoroughId, { label: string; count: number }>();
-  for (const project of projects) {
-    const current = counts.get(project.borough.id);
-    if (current) current.count += 1;
-    else
-      counts.set(project.borough.id, {
-        label: project.borough.label,
-        count: 1,
-      });
-  }
-  return [...counts.entries()]
-    .map(([id, value]) => ({ id, ...value }))
-    .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
-}
-
-export const BOROUGH_COUNT = boroughTiles().length;
-
 export type ProjectHashState = {
   type?: ProjectKind | "all";
-  borough?: BoroughId;
   q?: string;
   view?: ProjectView;
 };
@@ -108,7 +89,6 @@ export function parseProjectHash(hash: string): ProjectHashState {
   if (!raw.startsWith("projects") || qIndex === -1) return {};
   const params = new URLSearchParams(raw.slice(qIndex + 1));
   const type = params.get("type") as ProjectHashState["type"];
-  const borough = params.get("borough") as BoroughId | null;
   const q = params.get("q") ?? undefined;
   const view = params.get("view") as ProjectView | null;
   const types: ProjectKind[] = [
@@ -120,7 +100,6 @@ export function parseProjectHash(hash: string): ProjectHashState {
   const views: ProjectView[] = ["grid", "list", "map"];
   return {
     type: type === "all" || (type && types.includes(type)) ? type : undefined,
-    borough: borough ?? undefined,
     q: q || undefined,
     view: view && views.includes(view) ? view : undefined,
   };
@@ -129,7 +108,6 @@ export function parseProjectHash(hash: string): ProjectHashState {
 export function writeProjectHash(state: ProjectHashState) {
   const params = new URLSearchParams();
   if (state.type && state.type !== "all") params.set("type", state.type);
-  if (state.borough) params.set("borough", state.borough);
   if (state.q?.trim()) params.set("q", state.q.trim());
   if (state.view && state.view !== "grid") params.set("view", state.view);
   const query = params.toString();
@@ -147,7 +125,6 @@ export function filterProjects(
   projects: EnrichedProject[],
   state: {
     type?: ProjectKind | "all";
-    borough?: BoroughId;
     q?: string;
   },
 ) {
@@ -156,7 +133,6 @@ export function filterProjects(
     if (state.type && state.type !== "all" && project.kind.id !== state.type) {
       return false;
     }
-    if (state.borough && project.borough.id !== state.borough) return false;
     if (!query) return true;
     return (
       project.name.toLowerCase().includes(query) ||

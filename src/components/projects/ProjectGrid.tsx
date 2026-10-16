@@ -8,15 +8,12 @@ import { TiltCard } from "@/components/motion/TiltCard";
 import { ProjectDrawer } from "@/components/projects/ProjectDrawer";
 import { ProjectMap } from "@/components/projects/ProjectMap";
 import {
-  BOROUGH_COUNT,
   ENRICHED_PROJECTS,
-  boroughTiles,
   filterProjects,
   formatTons,
   parseProjectHash,
   sectionIdFromHash,
   writeProjectHash,
-  type BoroughId,
   type EnrichedProject,
   type ProjectKind,
   type ProjectView,
@@ -35,10 +32,8 @@ type SortKey = "name" | "city" | "type" | "year" | "tons";
 
 export function ProjectGrid() {
   const reduceMotion = useReducedMotion();
-  const tiles = useMemo(() => boroughTiles(), []);
   const [query, setQuery] = useState("");
   const [type, setType] = useState<ProjectKind | "all">("all");
-  const [borough, setBorough] = useState<BoroughId | undefined>();
   const [view, setView] = useState<ProjectView>("grid");
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
@@ -51,7 +46,6 @@ export function ProjectGrid() {
       const state = parseProjectHash(window.location.hash);
       if (state.q) setQuery(state.q);
       if (state.type) setType(state.type);
-      if (state.borough) setBorough(state.borough);
       if (state.view) setView(state.view);
     };
     apply();
@@ -63,20 +57,18 @@ export function ProjectGrid() {
   useEffect(() => {
     if (!ready) return;
     const section = sectionIdFromHash(window.location.hash);
-    const idle =
-      type === "all" && !borough && !query.trim() && view === "grid";
+    const idle = type === "all" && !query.trim() && view === "grid";
     if (section !== "projects" && idle) return;
     writeProjectHash({
       q: query,
       type,
-      borough,
       view,
     });
-  }, [ready, query, type, borough, view]);
+  }, [ready, query, type, view]);
 
   const filtered = useMemo(
-    () => filterProjects(ENRICHED_PROJECTS, { q: query, type, borough }),
-    [query, type, borough],
+    () => filterProjects(ENRICHED_PROJECTS, { q: query, type }),
+    [query, type],
   );
 
   const featured = filtered.filter((p) => p.featured);
@@ -125,7 +117,7 @@ export function ProjectGrid() {
 
   return (
     <div>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <Stat label="Listed jobs" value={ENRICHED_PROJECTS.length} />
         <Stat
           label="Jobs delivered"
@@ -133,7 +125,6 @@ export function ProjectGrid() {
           suffix="+"
         />
         <Stat label="Total tonnage" value={SITE.totalTonnage} grouped />
-        <Stat label="Boroughs & counties" value={BOROUGH_COUNT} />
       </div>
 
       <div className="mt-8 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
@@ -172,34 +163,6 @@ export function ProjectGrid() {
             {item.label}
           </button>
         ))}
-      </div>
-
-      <div
-        className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3"
-        role="group"
-        aria-label="Filter by borough or county"
-      >
-        {tiles.map((tile) => {
-          const active = borough === tile.id;
-          return (
-            <button
-              key={tile.id}
-              type="button"
-              aria-pressed={active}
-              onClick={() => setBorough(active ? undefined : tile.id)}
-              className={`focus-ring rounded-[var(--radius-md)] border px-4 py-3 text-left ${
-                active
-                  ? "border-accent bg-accent/10 text-ink-text"
-                  : "border-black/10 bg-graphite text-ink-text hover:border-accent/40"
-              }`}
-            >
-              <span className="font-display tracking-[0.1em]">{tile.label}</span>
-              <span className="mt-1 block text-sm text-muted">
-                {tile.count} job{tile.count === 1 ? "" : "s"}
-              </span>
-            </button>
-          );
-        })}
       </div>
 
       {view !== "map" && featured.length ? (

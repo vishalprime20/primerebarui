@@ -7,6 +7,7 @@ import { GALLERY_IMAGES, type GalleryItem } from "@/lib/data";
 export function GalleryGrid() {
   const [index, setIndex] = useState(0);
   const [lightbox, setLightbox] = useState(false);
+  const [soundOn, setSoundOn] = useState(false);
   const reduceMotion = useReducedMotion();
   const thumbRef = useRef<HTMLDivElement>(null);
   const total = GALLERY_IMAGES.length;
@@ -82,6 +83,7 @@ export function GalleryGrid() {
                 item={current}
                 fill
                 autoPlay={!reduceMotion}
+                muted={!soundOn}
                 className="object-cover"
                 sizes="100vw"
                 priority={index === 0}
@@ -89,6 +91,18 @@ export function GalleryGrid() {
               <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
             </motion.button>
           </AnimatePresence>
+
+          {isVideo ? (
+            <button
+              type="button"
+              className="focus-ring absolute left-3 top-3 z-10 rounded-[var(--radius-sm)] border border-white/20 bg-black/75 px-3 py-2 text-sm text-white backdrop-blur-sm sm:left-5 sm:top-5"
+              aria-pressed={soundOn}
+              aria-label={soundOn ? "Mute video" : "Unmute video"}
+              onClick={() => setSoundOn((on) => !on)}
+            >
+              {soundOn ? "Mute" : "Sound on"}
+            </button>
+          ) : null}
 
           <button
             type="button"
@@ -204,9 +218,21 @@ export function GalleryGrid() {
               exit={reduceMotion ? undefined : { scale: 0.96, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
             >
+              {isVideo ? (
+                <button
+                  type="button"
+                  className="focus-ring absolute right-0 top-0 z-10 -translate-y-full rounded-[var(--radius-sm)] border border-white/20 bg-black/80 px-3 py-2 text-sm text-white"
+                  aria-pressed={soundOn}
+                  aria-label={soundOn ? "Mute video" : "Unmute video"}
+                  onClick={() => setSoundOn((on) => !on)}
+                >
+                  {soundOn ? "Mute" : "Sound on"}
+                </button>
+              ) : null}
               <GalleryMedia
                 item={current}
                 autoPlay={!reduceMotion}
+                muted={!soundOn}
                 width={1600}
                 height={1066}
                 className="max-h-[85vh] w-full rounded-[var(--radius-md)] object-contain"
@@ -237,6 +263,7 @@ function GalleryMedia({
   priority = false,
   loading,
   autoPlay = false,
+  muted = true,
 }: {
   item: GalleryItem;
   fill?: boolean;
@@ -247,25 +274,18 @@ function GalleryMedia({
   priority?: boolean;
   loading?: "lazy" | "eager";
   autoPlay?: boolean;
+  muted?: boolean;
 }) {
   if (item.kind === "video") {
-    const videoClass = fill
-      ? `absolute inset-0 h-full w-full ${className}`
-      : className;
     return (
-      <span className={fill ? "absolute inset-0 block bg-ink" : "relative block"}>
-        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-        <video
-          src={item.src}
-          poster={item.poster}
-          className={videoClass}
-          muted
-          loop
-          playsInline
-          autoPlay={autoPlay}
-          preload={autoPlay ? "auto" : "metadata"}
-        />
-      </span>
+      <GalleryVideo
+        src={item.src}
+        poster={item.poster}
+        fill={fill}
+        className={className}
+        muted={muted}
+        autoPlay={autoPlay}
+      />
     );
   }
 
@@ -282,6 +302,53 @@ function GalleryMedia({
       priority={priority}
       loading={loading}
     />
+  );
+}
+
+function GalleryVideo({
+  src,
+  poster,
+  fill,
+  className = "",
+  muted,
+  autoPlay,
+}: {
+  src: string;
+  poster?: string;
+  fill?: boolean;
+  className?: string;
+  muted: boolean;
+  autoPlay: boolean;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = muted;
+    if (!muted) video.volume = 1;
+    if (autoPlay) void video.play().catch(() => {});
+  }, [muted, autoPlay, src]);
+
+  const videoClass = fill
+    ? `absolute inset-0 h-full w-full ${className}`
+    : className;
+
+  return (
+    <span className={fill ? "absolute inset-0 block bg-ink" : "relative block"}>
+      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+      <video
+        ref={videoRef}
+        src={src}
+        poster={poster}
+        className={videoClass}
+        muted={muted}
+        loop
+        playsInline
+        autoPlay={autoPlay}
+        preload={autoPlay ? "auto" : "metadata"}
+      />
+    </span>
   );
 }
 
