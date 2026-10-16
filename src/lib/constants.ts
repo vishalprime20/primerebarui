@@ -25,6 +25,13 @@ export const SITE = {
       full: "121 High Hill Rd, Swedesboro, NJ 08085",
     },
     facility: "Swedesboro, New Jersey",
+    quoteRecipients: ["office@primerebar.com", "vishal@primerebar.com"],
+  },
+  social: {
+    facebook: "https://www.facebook.com/rebarfabrication/",
+    linkedin: "",
+    twitter: "",
+    whatsapp: "https://wa.me/19087071234?text=Hey",
   },
 } as const;
 

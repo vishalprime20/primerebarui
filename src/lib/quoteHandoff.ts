@@ -25,7 +25,7 @@ export function consumeQuoteNotes(): { notes: string; projectType?: string } | n
   return { notes, projectType };
 }
 
-/** POST a short summary to Formspree (if configured), then hand off into the quote form. */
+/** POST a short summary to MWS_CRM (if configured), then hand off into the quote form. */
 export async function sendToolQuote(notes: string, source: string) {
   await postFormPayload({
     _subject: `Prime Rebar tool quote — ${source}`,
