@@ -20,15 +20,20 @@ npm run lint          # eslint
 npx serve out         # preview static build locally
 ```
 
-## Deploy to GitHub Pages
+## Deploy to GitHub Pages (`www.primerebar.com`)
 
 Workflow: [`.github/workflows/main.yml`](.github/workflows/main.yml)
 
 1. Repo **Settings → Pages → Build and deployment → Source**: **GitHub Actions**
-2. Push to `main` (or `master`), or run the workflow manually under **Actions**
-3. Site URL: `https://vishalprime20.github.io/primerebarui/`
+2. Pages **Custom domain**: `www.primerebar.com` (`public/CNAME`)
+3. Push to `main`, or run the workflow under **Actions**
+4. At the DNS host (currently Wix), point:
 
-`GITHUB_PAGES=true` sets `basePath` / `assetPrefix` to `/primerebarui` (must match the repo name).
+   - `www` **CNAME** → `vishalprime20.github.io`
+
+Live URL: [https://www.primerebar.com](https://www.primerebar.com)
+
+Do **not** set `GITHUB_PAGES=true` for this domain. That flag is only for the project URL `https://vishalprime20.github.io/primerebarui/` (`npm run build:pages`).
 
 ## Single-page sections
 

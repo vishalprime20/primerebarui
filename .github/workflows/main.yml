@@ -33,9 +33,11 @@ jobs:
         run: npm ci
 
       - name: Build static site
+        # Custom domain www.primerebar.com is site root — do not set GITHUB_PAGES
+        # (that prefixes assets with /primerebarui and breaks the live domain).
         run: npm run build
         env:
-          GITHUB_PAGES: "true"
+          NEXT_PUBLIC_MWS_CRM_ENDPOINT: http://crm.primerebar.com/api/marketing/website-form
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

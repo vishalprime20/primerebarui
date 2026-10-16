@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 import path from "path";
 
 const isGithubPages = process.env.GITHUB_PAGES === "true";
-/** Must match the GitHub repository name for project Pages URLs */
+/** Only for https://vishalprime20.github.io/primerebarui/ — not www.primerebar.com */
 const repoName = "primerebarui";
 const basePath = isGithubPages ? `/${repoName}` : "";
 
