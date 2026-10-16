@@ -7,12 +7,15 @@ import { GALLERY_IMAGES, type GalleryItem } from "@/lib/data";
 export function GalleryGrid() {
   const [index, setIndex] = useState(0);
   const [lightbox, setLightbox] = useState(false);
-  const [soundOn, setSoundOn] = useState(false);
+  const [soundOn, setSoundOn] = useState(true);
+  const [inView, setInView] = useState(false);
   const reduceMotion = useReducedMotion();
+  const stageRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
   const total = GALLERY_IMAGES.length;
   const current = GALLERY_IMAGES[index];
   const isVideo = current.kind === "video";
+  const stageShouldPlay = Boolean(isVideo && inView && !lightbox && !reduceMotion);
 
   const go = useCallback(
     (dir: -1 | 1) => {
@@ -61,10 +64,40 @@ export function GalleryGrid() {
     };
   }, [lightbox]);
 
+  useEffect(() => {
+    const target = stageRef.current ?? document.getElementById("gallery");
+    if (!target) return;
+
+    const update = () => {
+      const rect = target.getBoundingClientRect();
+      setInView(rect.bottom > 0 && rect.top < window.innerHeight);
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(target);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    const onHash = () => requestAnimationFrame(update);
+    window.addEventListener("hashchange", onHash);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+      window.removeEventListener("hashchange", onHash);
+    };
+  }, []);
+
   return (
     <>
       <div className="relative">
-        <div className="relative aspect-[16/10] overflow-hidden rounded-[var(--radius-lg)] border border-black/10 bg-graphite sm:aspect-[21/10]">
+        <div
+          ref={stageRef}
+          className="relative aspect-[16/10] overflow-hidden rounded-[var(--radius-lg)] border border-black/10 bg-graphite sm:aspect-[21/10]"
+        >
           <AnimatePresence mode="wait">
             <motion.button
               key={current.id}
@@ -82,7 +115,7 @@ export function GalleryGrid() {
               <GalleryMedia
                 item={current}
                 fill
-                autoPlay={!reduceMotion}
+                autoPlay={stageShouldPlay}
                 muted={!soundOn}
                 className="object-cover"
                 sizes="100vw"
@@ -325,9 +358,42 @@ function GalleryVideo({
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    video.muted = muted;
-    if (!muted) video.volume = 1;
-    if (autoPlay) void video.play().catch(() => {});
+
+    let cancelled = false;
+
+    const applySound = () => {
+      video.muted = muted;
+      if (!muted) video.volume = 1;
+    };
+
+    const tryPlay = () => {
+      if (cancelled || !autoPlay) return;
+      applySound();
+      void video.play().catch(() => {
+        if (cancelled || !autoPlay || muted) return;
+        // Browsers block unmuted autoplay until a gesture; keep the clip moving.
+        video.muted = true;
+        void video.play().catch(() => {});
+      });
+    };
+
+    if (!autoPlay) {
+      applySound();
+      video.pause();
+      return;
+    }
+
+    tryPlay();
+    video.addEventListener("loadeddata", tryPlay);
+    window.addEventListener("pointerdown", tryPlay);
+    window.addEventListener("keydown", tryPlay);
+
+    return () => {
+      cancelled = true;
+      video.removeEventListener("loadeddata", tryPlay);
+      window.removeEventListener("pointerdown", tryPlay);
+      window.removeEventListener("keydown", tryPlay);
+    };
   }, [muted, autoPlay, src]);
 
   const videoClass = fill
@@ -345,8 +411,7 @@ function GalleryVideo({
         muted={muted}
         loop
         playsInline
-        autoPlay={autoPlay}
-        preload={autoPlay ? "auto" : "metadata"}
+        preload="auto"
       />
     </span>
   );
