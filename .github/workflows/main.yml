@@ -37,7 +37,7 @@ jobs:
         # (that prefixes assets with /primerebarui and breaks the live domain).
         run: npm run build
         env:
-          NEXT_PUBLIC_MWS_CRM_ENDPOINT: http://crm.primerebar.com/api/marketing/website-form
+          NEXT_PUBLIC_MWS_CRM_ENDPOINT: https://crm.primerebar.com/api/marketing/website-form
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
