@@ -194,7 +194,7 @@ export function ContactForm() {
             className={`${inputClass} file:mr-3 file:rounded-sm file:border-0 file:bg-charcoal file:px-3 file:py-1.5 file:text-sm file:text-ink-text`}
           />
           <span className="mt-1.5 block text-xs text-steel">
-            Optional. The file name is included with the request.
+            Optional. The file is attached to the quote email (PDF, CAD, zip, or image, up to 7 MB).
           </span>
         </Field>
         <Field label="Message" id="message" required className="sm:col-span-2">
