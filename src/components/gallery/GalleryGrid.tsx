@@ -15,7 +15,10 @@ export function GalleryGrid() {
   const total = GALLERY_IMAGES.length;
   const current = GALLERY_IMAGES[index];
   const isVideo = current.kind === "video";
-  const stageShouldPlay = Boolean(isVideo && inView && !lightbox && !reduceMotion);
+  const [allowVideo, setAllowVideo] = useState(false);
+  const stageShouldPlay = Boolean(
+    isVideo && allowVideo && inView && !lightbox && !reduceMotion,
+  );
 
   const go = useCallback(
     (dir: -1 | 1) => {
@@ -68,28 +71,17 @@ export function GalleryGrid() {
     const target = stageRef.current ?? document.getElementById("gallery");
     if (!target) return;
 
-    const update = () => {
-      const rect = target.getBoundingClientRect();
-      setInView(rect.bottom > 0 && rect.top < window.innerHeight);
-    };
-
     const observer = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
-      { threshold: 0 },
+      { rootMargin: "320px 0px", threshold: 0 },
     );
     observer.observe(target);
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    const onHash = () => requestAnimationFrame(update);
-    window.addEventListener("hashchange", onHash);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-      window.removeEventListener("hashchange", onHash);
-    };
+    return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (inView || lightbox) setAllowVideo(true);
+  }, [inView, lightbox]);
 
   return (
     <>
@@ -117,9 +109,9 @@ export function GalleryGrid() {
                 fill
                 autoPlay={stageShouldPlay}
                 muted={!soundOn}
+                loadVideo={allowVideo}
                 className="object-cover"
                 sizes="100vw"
-                priority={index === 0}
               />
               <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
             </motion.button>
@@ -188,14 +180,26 @@ export function GalleryGrid() {
                     : "border-black/10 opacity-70 hover:opacity-100"
                 }`}
               >
-                <GalleryMedia
-                  item={image}
-                  fill
-                  autoPlay={false}
-                  className="object-cover"
-                  sizes="112px"
-                  loading="lazy"
-                />
+                {image.kind === "video" ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={image.poster}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                ) : (
+                  <GalleryMedia
+                    item={image}
+                    fill
+                    autoPlay={false}
+                    loadVideo={false}
+                    className="object-cover"
+                    sizes="112px"
+                    loading="lazy"
+                  />
+                )}
               </button>
             );
           })}
@@ -266,11 +270,11 @@ export function GalleryGrid() {
                 item={current}
                 autoPlay={!reduceMotion}
                 muted={!soundOn}
+                loadVideo
                 width={1600}
                 height={1066}
                 className="max-h-[85vh] w-full rounded-[var(--radius-md)] object-contain"
                 sizes="100vw"
-                priority
               />
               <p className="mt-3 text-center text-sm text-white/80">
                 {current.alt}
@@ -297,6 +301,7 @@ function GalleryMedia({
   loading,
   autoPlay = false,
   muted = true,
+  loadVideo = false,
 }: {
   item: GalleryItem;
   fill?: boolean;
@@ -308,6 +313,7 @@ function GalleryMedia({
   loading?: "lazy" | "eager";
   autoPlay?: boolean;
   muted?: boolean;
+  loadVideo?: boolean;
 }) {
   if (item.kind === "video") {
     return (
@@ -318,6 +324,7 @@ function GalleryMedia({
         className={className}
         muted={muted}
         autoPlay={autoPlay}
+        load={loadVideo}
       />
     );
   }
@@ -345,6 +352,7 @@ function GalleryVideo({
   className = "",
   muted,
   autoPlay,
+  load,
 }: {
   src: string;
   poster?: string;
@@ -352,12 +360,13 @@ function GalleryVideo({
   className?: string;
   muted: boolean;
   autoPlay: boolean;
+  load: boolean;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !load) return;
 
     let cancelled = false;
 
@@ -390,29 +399,46 @@ function GalleryVideo({
 
     return () => {
       cancelled = true;
+      video.pause();
       video.removeEventListener("loadeddata", tryPlay);
       window.removeEventListener("pointerdown", tryPlay);
       window.removeEventListener("keydown", tryPlay);
     };
-  }, [muted, autoPlay, src]);
+  }, [muted, autoPlay, src, load]);
 
   const videoClass = fill
     ? `absolute inset-0 h-full w-full ${className}`
     : className;
+  const posterClass = fill
+    ? `absolute inset-0 h-full w-full object-cover ${className}`
+    : className;
 
   return (
     <span className={fill ? "absolute inset-0 block bg-ink" : "relative block"}>
-      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-      <video
-        ref={videoRef}
-        src={src}
-        poster={poster}
-        className={videoClass}
-        muted={muted}
-        loop
-        playsInline
-        preload="metadata"
-      />
+      {poster ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={poster}
+          alt=""
+          className={posterClass}
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+        />
+      ) : null}
+      {load ? (
+        // eslint-disable-next-line jsx-a11y/media-has-caption
+        <video
+          ref={videoRef}
+          src={src}
+          poster={poster}
+          className={videoClass}
+          muted={muted}
+          loop
+          playsInline
+          preload="none"
+        />
+      ) : null}
     </span>
   );
 }
