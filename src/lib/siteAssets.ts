@@ -21,7 +21,7 @@ export function galleryJpg(id: string) {
 
 /** Gallery demo video under public/images/gallery. */
 export function galleryVideo(filename: string) {
-  return `${BASE}/images/gallery/${encodeURIComponent(filename)}?v=audio`;
+  return `${BASE}/images/gallery/${encodeURIComponent(filename)}?v=web`;
 }
 
 /** Featured-project still under public/images/projects. */

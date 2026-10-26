@@ -411,7 +411,7 @@ function GalleryVideo({
         muted={muted}
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
       />
     </span>
   );

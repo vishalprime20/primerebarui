@@ -1,5 +1,6 @@
 import {
   galleryJpg,
+  galleryVideo,
   galleryWebp,
   projectPhoto,
   siteAsset,
@@ -454,8 +455,15 @@ const SERVICE_GALLERY_STILLS: { id: string; file: string; alt: string }[] = [
   },
 ];
 
-/** Gallery stills (yard demo video omitted for now). */
+/** Gallery media: looping yard demo, then shop/jobsite stills. */
 export const GALLERY_IMAGES: GalleryItem[] = [
+  {
+    id: "yard-demo",
+    alt: "Prime Rebar Swedesboro fabrication yard",
+    kind: "video",
+    src: galleryVideo("prime-rebar-9-28-26.mp4"),
+    poster: galleryJpg("yard-docks-3-4"),
+  },
   ...GALLERY_STILLS_HEAD.map(galleryStill),
   ...YARD_STILLS.map((item) => ({
     id: item.id,
